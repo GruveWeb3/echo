@@ -8,13 +8,13 @@ It handles event display, ticket purchase flows, and supports customization like
 ## 📦 Installation
 
 ```bash
-npm install echo
+npm install @gruve/echo
 ```
 
 #### or
 
 ```bash
-yarn add echo
+yarn add @gruve/echo
 ```
 
 ### 🚀 Usage
