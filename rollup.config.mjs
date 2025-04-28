@@ -40,7 +40,11 @@ export default {
   external: ["react", "react-dom"],
   plugins: [
     external(),
-    postcss(),
+    postcss({
+      modules: {
+        generateScopedName: "[name]__[local]___[hash:base64:5]",
+      },
+    }),
     resolve({ extensions }),
     commonjs(),
     typescript({
@@ -50,7 +54,7 @@ export default {
     babel({
       extensions,
       babelHelpers: "bundled",
-      exclude: "node_modules/**",
+      exclude: ["node_modules/**", "**/*.ts", "**/*.tsx"],
     }),
     terser(),
   ],
