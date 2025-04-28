@@ -1,6 +1,8 @@
 {
-  "name": "echo",
-  "version": "1.0.0",
+  "name": "@gruve/echo",
+  "version": "0.0.1",
+  "description": "",
+  "author": "xlassix",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "browser": "dist/index.umd.js",
@@ -15,8 +17,17 @@
   "files": [
     "dist"
   ],
+  "lint-staged": {
+    "**/*.ts": "eslint --fix",
+    "src/**/*": [
+      "prettier --single-quote --write"
+    ]
+  },
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "build:test": "npx tsc",
+    "lint": "eslint . --ext .ts",
+    "prepare": "husky install"
   },
   "unpkg": "dist/index.umd.js",
   "peerDependencies": {
@@ -44,7 +55,7 @@
     "@types/paystack__inline-js": "^1.0.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
-    "dotenv": "^16.5.0",
+    "husky": "^8.0.3",
     "react-error-overlay": "^6.0.9",
     "rollup": "^4.40.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
@@ -53,7 +64,27 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.8.3"
   },
+  "keywords": [
+    "web3",
+    "ipfs",
+    "Gruve",
+    "Event",
+    "Ticketing",
+    "Gruve.Events",
+    "Gruve Tickets"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GruveWeb3/echo.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+
   "resolutions": {
     "react-error-overlay": "6.0.9"
-  }
+  },
+  "contributors": [
+    "Oki Ayobami (https://github.com/xlassix)"
+  ]
 }
