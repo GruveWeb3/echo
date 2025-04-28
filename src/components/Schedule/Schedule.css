@@ -1,6 +1,6 @@
 .schedule-wrapper {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 1rem;
 }
 
@@ -22,7 +22,7 @@
   text-align: center;
   font-size: 0.65rem;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
   width: 40px;
   height: 40px;
@@ -57,10 +57,6 @@
   color: #575572;
 }
 
-.right-section {
-  display: none;
-}
-
 @media (min-width: 768px) {
   .right-section {
     display: block;
@@ -88,7 +84,7 @@
   margin-bottom: 0.1rem;
   width: 24px;
   height: 24px;
-  border: 2px solid #fecaca; /* red.200 */
+  border: 2px solid #fecaca;
   border-radius: 9999px;
   font-weight: bold;
   font-size: 10px;

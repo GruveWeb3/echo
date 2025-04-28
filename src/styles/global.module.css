@@ -1,0 +1,29 @@
+@import "./fonts.module.css";
+
+:root {
+  --font-primary: "Satoshi", sans-serif;
+}
+
+* {
+  font-family: var(--font-primary);
+  letter-spacing: 0;
+}
+
+button {
+  padding: 0px !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+button {
+  margin-block-start: 0px !important;
+  margin-block-end: 0px !important;
+}
