@@ -7,11 +7,13 @@
   "module": "dist/index.es.js",
   "browser": "dist/index.umd.js",
   "umd:main": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
       "require": "./dist/index.js",
-      "browser": "./dist/index.umd.js"
+      "browser": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
@@ -65,22 +67,22 @@
     "typescript": "^5.8.3"
   },
   "keywords": [
-    "web3",
-    "ipfs",
-    "Gruve",
-    "Event",
-    "Ticketing",
-    "Gruve.Events",
-    "Gruve Tickets"
+    "events",
+    "tickets",
+    "host",
+    "echo"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/GruveWeb3/echo.git"
+    "url": "git+https://github.com/GruveWeb3/echo.git"
   },
+  "bugs": {
+    "url": "https://github.com/GruveWeb3/echo.git/issues"
+  },
+  "homepage": "https://github.com/GruveWeb3/echo.git#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-
   "resolutions": {
     "react-error-overlay": "6.0.9"
   },
