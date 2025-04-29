@@ -10,7 +10,7 @@ import PoweredBy from "../../asset/PoweredBy";
 import CloseIcon from "../../asset/CloseIcon";
 import { SelectedTicket } from "../Tickets/TicketsCounter";
 import Checkout from "../Checkout/Checkout";
-import { expandTickets, updatedTickets } from "../../utils/utils";
+import { expandTickets, GET_BASE_URL, updatedTickets } from "../../utils/utils";
 import {
   IEventType,
   QuestionList,
@@ -29,8 +29,7 @@ interface EventDetailsProps {
   coupons: any[];
   ticketBalances: number[];
   couponData: TicketDiscountList;
-  BACKEND_URL: string;
-  BASE_URL: string;
+  isTest: boolean;
   buttonColor: string;
   buttonTextColor: string;
 }
@@ -45,8 +44,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   coupons,
   couponData,
   ticketBalances,
-  BACKEND_URL,
-  BASE_URL,
+  isTest,
   buttonColor,
   buttonTextColor,
 }) => {
@@ -94,7 +92,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       {showTicketPurchaseSuccess ? (
         <TicketPurchaseSuccessfulModal
           close={handleClose}
-          BASE_URL={BASE_URL}
+          BASE_URL={GET_BASE_URL(isTest)}
           buttonColor={buttonColor}
           buttonTextColor={buttonColor}
         />
@@ -120,8 +118,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                 buttonColor={buttonColor}
                 buttonTextColor={buttonTextColor}
                 handleCloseModal={handleClose}
-                BACKEND_URL={BACKEND_URL}
-                BASE_URL={BASE_URL}
+                isTest={isTest}
               />
             </>
           ) : (

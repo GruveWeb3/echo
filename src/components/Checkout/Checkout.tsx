@@ -11,7 +11,9 @@ import {
   applyDiscount,
   createUserAnswerArray,
   findTicketTypeIdWithHighestQuantity,
-  PAYSTACK_KEY,
+  GET_BACKEND_URL,
+  GET_BASE_URL,
+  GET_PAYSTACK_KEY,
   randomizeLastFourDigits,
 } from "../../utils/utils";
 import paystackModal from "@paystack/inline-js";
@@ -34,8 +36,7 @@ interface CheckoutProps {
   updatedTicketsData: ITicketListed[];
   buttonColor: string;
   buttonTextColor: string;
-  BACKEND_URL: string;
-  BASE_URL: string;
+  isTest: boolean;
 }
 
 const Checkout: React.FC<CheckoutProps> = ({
@@ -54,8 +55,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   openPaymentsModal,
   coupons,
   updatedTicketsData,
-  BACKEND_URL,
-  BASE_URL,
+  isTest,
   buttonColor,
   buttonTextColor,
 }) => {
@@ -135,7 +135,7 @@ const Checkout: React.FC<CheckoutProps> = ({
 
     setIsSubmitting(true);
     try {
-      const res = await fetch(`${BACKEND_URL}/api/add_free_event`, {
+      const res = await fetch(`${GET_BACKEND_URL(isTest)}/api/add_free_event`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -159,7 +159,7 @@ const Checkout: React.FC<CheckoutProps> = ({
     if (!Array.isArray(userAnswerArray) || userAnswerArray.length === 0) return;
 
     try {
-      const response = await fetch(`${BASE_URL}/api/questions`, {
+      const response = await fetch(`${GET_BASE_URL(isTest)}/api/questions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -265,7 +265,7 @@ const Checkout: React.FC<CheckoutProps> = ({
     let _request;
     setIsSubmitting(true);
     try {
-      const res = await fetch(`${BACKEND_URL}/api/payment/paystack`, {
+      const res = await fetch(`${GET_BACKEND_URL(isTest)}/api/payment/paystack`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -287,7 +287,7 @@ const Checkout: React.FC<CheckoutProps> = ({
       const _payStack = new paystackModal();
 
       _payStack.newTransaction({
-        key: PAYSTACK_KEY,
+        key: GET_PAYSTACK_KEY(isTest),
         amount: amount.toString() === "0" ? 1 : amount,
         currency: "NGN",
         email,
@@ -346,7 +346,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   const handleCoupon = async (eventAddress: string, code: string) => {
     try {
       setShowApplyCoupon(true);
-      const res = await fetch(`${BACKEND_URL}/api/discount/check`, {
+      const res = await fetch(`${GET_BACKEND_URL(isTest)}/api/discount/check`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

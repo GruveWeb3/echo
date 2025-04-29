@@ -4,6 +4,7 @@ import { IEventType, QuestionList, TicketDiscountList } from "../../types/echo";
 import "./index.css";
 import "../styles/global.module.css";
 import Loader from "./Loader/Loader";
+import { GET_BACKEND_URL, GET_BASE_URL } from "../utils/utils";
 
 export interface TagsOptions {
 	value: string;
@@ -84,19 +85,14 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
 	const [ticketBalances, setTicketBalances] = useState([]);
 	const [couponData, setCouponData] = useState<TicketDiscountList>([]);
 
-	const BASE_URL = isTest
-		? "https://test.gruve.vercel.app"
-		: "https://beta.gruve.events";
-
-	const BACKEND_URL = isTest
-		? "https://backend.gruve.events"
-		: "https://secure.gruve.events";
-
 	const [rates, setRates] = useState({});
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [open, setOpen] = useState(false);
+
+  const BASE_URL=GET_BASE_URL(isTest);
+  const BACKEND_URL= GET_BACKEND_URL(isTest)
 
 	const fetchRates = async () => {
 		try {
@@ -191,8 +187,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
 					coupons={coupons}
 					couponData={couponData}
 					ticketBalances={ticketBalances}
-					BACKEND_URL={BACKEND_URL}
-					BASE_URL={BASE_URL}
+          isTest={isTest}
 					buttonColor={buttonColor}
 					buttonTextColor={buttonTextColor}
 				/>
