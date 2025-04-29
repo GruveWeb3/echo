@@ -7,10 +7,10 @@ import { babel } from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
 import pkg from "./package.json" with { type: "json" };
 
-
 const extensions = [".js", ".jsx", ".ts", ".tsx"];
 
-export default {
+
+const config = {
   input: "src/index.tsx",
   output: [
     {
@@ -42,7 +42,7 @@ export default {
     external(),
     postcss({
       modules: {
-        generateScopedName: "[name]__[local]___[hash:base64:5]",
+        generateScopedName: "[name][local]_[hash:base64:5]",
       },
     }),
     resolve({ extensions }),
@@ -54,8 +54,44 @@ export default {
     babel({
       extensions,
       babelHelpers: "bundled",
-      exclude: ["node_modules/**", "**/*.ts", "**/*.tsx"],
+      exclude: ["node_modules/", "/.ts", "/.tsx"],
     }),
     terser(),
   ],
 };
+
+// Plain JS CTA button build config
+const plainJsConfig = {
+  input: "src/plain-js/cta-button.ts",
+  output: [
+    {
+      file: "dist/cta-button.umd.js",
+      format: "umd",
+      name: "GruveCTA",
+      sourcemap: true,
+    },
+    {
+      file: "dist/cta-button.min.js",
+      format: "iife",
+      name: "GruveCTA",
+      sourcemap: true,
+    }
+  ],
+  plugins: [
+    resolve({ extensions }),
+    commonjs(),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      clean: true,
+    }),
+    babel({
+      extensions,
+      babelHelpers: "bundled",
+      exclude: ["node_modules/", "/.ts", "/.tsx"],
+    }),
+    terser(),
+  ],
+};
+
+// Export both configurations
+export default [config, plainJsConfig];
