@@ -7,37 +7,9 @@ import { babel } from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
 import pkg from "./package.json" with { type: "json" };
 
-
 const extensions = [".js", ".jsx", ".ts", ".tsx"];
 
-export default {
-  input: "src/index.tsx",
-  output: [
-    {
-      file: pkg.main,
-      format: "cjs",
-      exports: "named",
-      sourcemap: true,
-    },
-    {
-      file: pkg.module,
-      format: "es",
-      exports: "named",
-      sourcemap: true,
-    },
-    {
-      file: "dist/index.umd.js",
-      format: "umd",
-      name: "GruveEventsWidget",
-      globals: {
-        react: "React",
-        "react-dom": "ReactDOM",
-        "react/jsx-runtime": "jsxRuntime", 
-      },
-      sourcemap: true,
-    },
-  ],
-  external: ["react", "react-dom"],
+const baseConfig = {
   plugins: [
     external(),
     postcss({
@@ -59,3 +31,50 @@ export default {
     terser(),
   ],
 };
+
+// React component build
+const reactConfig = {
+  ...baseConfig,
+  input: "src/index.tsx",
+  output: [
+    {
+      file: pkg.main,
+      format: "cjs",
+      exports: "named",
+      sourcemap: true,
+    },
+    {
+      file: pkg.module,
+      format: "es",
+      exports: "named",
+      sourcemap: true,
+    },
+    {
+      file: "dist/index.umd.js",
+      format: "umd",
+      name: "GruveEventsWidget",
+      globals: {
+        react: "React",
+        "react-dom": "ReactDOM",
+        "react/jsx-runtime": "jsxRuntime",
+      },
+      sourcemap: true,
+    },
+  ],
+  external: ["react", "react-dom"],
+};
+
+// Vanilla JS build
+const vanillaConfig = {
+  ...baseConfig,
+  input: "src/vanilla/cta-button.ts",
+  output: {
+    file: "dist/cta-button.js",
+    format: "umd",
+    name: "GruveCTA",
+    sourcemap: true,
+  },
+  external: ["react", "react-dom"],
+};
+
+export default [reactConfig, vanillaConfig];
