@@ -41,12 +41,7 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
           rel="noopener noreferrer"
           className="sign-in-button"
         >
-          <div
-            className=""
-            style={{ background: buttonColor, color: buttonTextColor }}
-          >
-            Sign in to Gruve
-          </div>
+          <div className="">Sign in to Gruve</div>
         </a>
       </div>
     </div>

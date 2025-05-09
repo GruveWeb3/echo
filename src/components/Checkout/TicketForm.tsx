@@ -220,7 +220,9 @@ const TicketForm: React.FC<Props> = ({
             id: ticket?.id ? ticket?.id : uuidv4().replace("-", ""),
             fullName: values.fullName,
             email: values.email,
-            whatsAppNumber: values.whatsAppNumber,
+            ...(values?.whatsAppNumber && {
+              whatsAppNumber: values.whatsAppNumber,
+            }),
             cost: ticket?.cost,
             quantity: ticket?.quantity,
             ticketName: ticket?.ticketName,
@@ -246,7 +248,9 @@ const TicketForm: React.FC<Props> = ({
               ticketName: ticket?.ticketName,
               ticketTypeId: ticket.ticketTypeId,
               email: values[`email_${index}`],
-              whatsAppNumber: values[`whatsAppNumber_${index}`],
+              ...(values[`whatsAppNumber_${index}`] && {
+                whatsAppNumber: values[`whatsAppNumber_${index}`],
+              }),
               questions,
             };
           });
@@ -582,7 +586,7 @@ const TicketForm: React.FC<Props> = ({
                 Back
               </div>
               {isSubmitting ? (
-                <div className="loading-btn">
+                <div className="loading-btn loader-container-order">
                   <div className="loader-spinner"></div>
                 </div>
               ) : (

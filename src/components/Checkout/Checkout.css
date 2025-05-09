@@ -2,6 +2,11 @@
   .go-back-btn {
     order: 1 !important;
   }
+
+  .loader-container-order {
+    order: 2 !important;
+  }
+
   .submit-btn {
     order: 2 !important;
   }
@@ -41,6 +46,10 @@
   background: #f7f7f7;
   cursor: pointer;
   transition: 300ms ease-in-out;
+}
+
+.loader-container-order {
+  order: 1;
 }
 
 .submit-btn {
