@@ -11,8 +11,10 @@
   justify-content: center;
 }
 
-.modal-body {
-  padding: 0;
+@media (min-width: 768px) {
+  .modal-body {
+    padding: 20px 32px;
+  }
 }
 
 .modal-flex {
@@ -20,6 +22,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 12px;
 }
 
 .modal-heading {
@@ -87,7 +90,7 @@
 
 .sign-in-button div:hover {
   cursor: pointer;
-  transition: ease-in;
+  transition: ease-in-out;
   transition-duration: 300ms;
   background: #df6979;
 }
