@@ -80,9 +80,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   };
   const updatedTicketsData = updatedTickets(
     listedTickets,
-    eventDetails?.tickets,
-    couponData
+    eventDetails?.tickets
   );
+
   return (
     <Modal
       isOpen={open}
