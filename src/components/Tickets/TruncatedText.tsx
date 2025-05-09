@@ -23,17 +23,19 @@ const TruncatedText = ({ text }: { text: string }) => {
   };
 
   return (
-    <div className="truncated-container">
+    <div className="gruve-echo-truncated-container">
       <p
         ref={ref}
-        className={`truncated-text ${isTruncated ? "truncated" : ""}`}
+        className={`gruve-echo-truncated-text ${
+          isTruncated ? "gruve-echo-truncated" : ""
+        }`}
         onClick={toggleTruncation}
       >
         {text}
       </p>
 
       {showToggle && (
-        <span className="read-toggle" onClick={toggleTruncation}>
+        <span className="gruve-echo-read-toggle" onClick={toggleTruncation}>
           {isTruncated ? "Read more" : "Read Less"}
         </span>
       )}

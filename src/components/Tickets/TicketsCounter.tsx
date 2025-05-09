@@ -18,12 +18,12 @@ function CustomInput({ max, value, onChange, ticket }: any) {
   };
 
   return (
-    <div className="counter-wrapper">
-      <button className="counter-btn" onClick={handleDecrement}>
+    <div className="gruve-echo-counter-wrapper">
+      <button className="gruve-echo-counter-btn" onClick={handleDecrement}>
         <MinusIcon />
       </button>
-      <span className="counter-value">{value}</span>
-      <button className="counter-btn" onClick={handleIncrement}>
+      <span className="gruve-echo-counter-value">{value}</span>
+      <button className="gruve-echo-counter-btn" onClick={handleIncrement}>
         <AddIcon />
       </button>
     </div>
@@ -132,7 +132,7 @@ export default function TicketCounter({
   };
 
   return (
-    <div className="ticket-counter-container">
+    <div className="gruve-echo-ticket-counter-container">
       {tickets.map((ticket: ITicket, index: number) => {
         const hasDiscount = ticket.cost !== ticket.discountedCost;
         const selectedTicket = selectedTickets.find(
@@ -142,12 +142,14 @@ export default function TicketCounter({
         const selectedQuantity = selectedTicket?.quantity ?? 0;
 
         return (
-          <div className="ticket-row" key={index}>
-            <div className="ticket-top">
-              <div className="ticket-top-left">
-                <div className="ticket-name-holder">
+          <div className="gruve-echo-ticket-row" key={index}>
+            <div className="gruve-echo-ticket-top">
+              <div className="gruve-echo-ticket-tp-left">
+                <div className="gruve-echo-ticket-name-holder">
                   <h4 className="">{ticket.sectionName} </h4>
-                  {hasDiscount && <div className="early-bird">Early bird</div>}
+                  {hasDiscount && (
+                    <div className="gruve-echo-early-bird">Early bird</div>
+                  )}
                 </div>
                 <span className="">
                   {ticket.cost === 0 ? (
@@ -155,7 +157,7 @@ export default function TicketCounter({
                   ) : (
                     <>
                       {hasDiscount ? (
-                        <div className="early-bird-prices">
+                        <div className="gruve-echo-early-bird-prices">
                           <h5>
                             {currentCurrency === "USD" ? "$" : "₦"}
                             {ticket?.discountedCost &&
@@ -227,7 +229,7 @@ export default function TicketCounter({
                 ticket={ticket}
               />
             </div>
-            <div className="ticket-info">
+            <div className="gruve-echo-ticket-info">
               <TruncatedText text={ticket?.description} />
             </div>
           </div>

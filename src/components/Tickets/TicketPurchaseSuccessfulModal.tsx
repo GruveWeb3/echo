@@ -17,19 +17,21 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
   buttonTextColor,
 }) => {
   return (
-    <div className="modal-body">
-      <div className="modal-top">
+    <div className="gruve-echo-modal-body">
+      <div className="gruve-echo-modal-top">
         <h3></h3>
-        <div onClick={close} className="close-icon">
+        <div onClick={close} className="gruve-echo-close-icon">
           <CloseIcon />
         </div>
       </div>
-      <div className="modal-flex">
+      <div className="gruve-echo-modal-flex">
         <SucessfulConnect height="96px" width="96px" />
 
-        <h2 className="modal-heading">Ticket acquired successfully</h2>
+        <h2 className="gruve-echo-modal-heading">
+          Ticket acquired successfully
+        </h2>
 
-        <p className="modal-text">
+        <p className="gruve-echo-modal-text">
           Your ticket will be sent to the provided email(s) and WhatsApp
           numbers. If you don't receive it immediately, please check your spam
           folder. Sign in to view more details and manage your registration.
@@ -39,7 +41,7 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
           href={BASE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="sign-in-button"
+          className="gruve-echo-sign-in-button"
         >
           <div className="">Sign in to Gruve</div>
         </a>

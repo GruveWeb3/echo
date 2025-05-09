@@ -53,17 +53,17 @@ export default function WhatsAppInput({
   }, []);
 
   return (
-    <div className="form-cont" ref={dropdownRef}>
+    <div className="gruve-echo-form-cont" ref={dropdownRef}>
       <label htmlFor={fieldName}>
         {index ? "WhatsApp No" : "Receiver's WhatsApp No"}
       </label>
 
       <div
-        className="whatsapp-container"
+        className="gruve-echo-whatsapp-container"
         style={{ display: "flex", alignItems: "center", position: "relative" }}
       >
         <div
-          className="code-input"
+          className="gruve-echo-code-input"
           style={{
             display: "flex",
             alignItems: "center",
@@ -104,7 +104,7 @@ export default function WhatsAppInput({
             {countryCodes.map((country, idx) => (
               <div
                 key={idx}
-                className="list-items"
+                className="gruve-echo-list-items"
                 onClick={() => handleCountryChange(country.code)}
                 style={{
                   padding: "8px",

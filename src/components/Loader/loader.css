@@ -1,4 +1,4 @@
-.loader-container_ {
+._ {
   width: 100%;
   position: fixed;
   top: 0;
@@ -12,14 +12,14 @@
   z-index: 9999;
 }
 
-.loading-btn {
+.gruve-echo-loading-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
 
-.loader-container {
+.gruve-event-loader-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,7 +27,7 @@
   height: 100%;
   z-index: 10;
 }
-.loading-btn div {
+.gruve-echo-loading-btn div {
   border: 4px solid #ea445a;
   width: 24px;
   height: 24px;
@@ -36,7 +36,7 @@
   animation: spin 0.7s linear infinite;
 }
 
-.loader-spinner {
+.gruve-event-loader-spinner {
   width: 32px;
   height: 32px;
   border: 4px solid #3b82f6;

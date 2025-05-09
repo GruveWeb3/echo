@@ -165,13 +165,13 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
         <button
           onClick={handleClick}
           style={{ ...config }}
-          className="event-details-btn"
+          className="gruve-event-details-btn"
         >
           {buttonText}
         </button>
       )}
       {loading ? (
-        <div className="loader-container_">
+        <div className="_">
           <Loader />
         </div>
       ) : (

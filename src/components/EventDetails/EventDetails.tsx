@@ -123,24 +123,24 @@ const EventDetails: React.FC<EventDetailsProps> = ({
             </>
           ) : (
             <>
-              <div className="modal-top">
+              <div className="gruve-echo-modal-top">
                 <h3>Details</h3>
-                <div onClick={handleClose} className="close-icon">
+                <div onClick={handleClose} className="gruve-echo-close-icon">
                   <CloseIcon />
                 </div>
               </div>
               {eventDetails && Object.keys(eventDetails).length > 0 && (
-                <div className="event-details-container">
-                  <div className="event-img-container">
+                <div className="gruve-echo-event-details-container">
+                  <div className="gruve-echo-event-img-container">
                     <img
-                      className="event-img max-w-[400px] max-h-[400px] size-[400px] rounded-lg"
+                      className="gruve-echo-event-imge max-w-[400px] max-h-[400px] size-[400px] rounded-lg"
                       src={eventDetails?.info?.eventImage}
                       alt=""
                     />
                   </div>
-                  <div className="details">
+                  <div className="gruve-echo-details">
                     <h3 className=""> {eventDetails?.info?.eventName}</h3>
-                    <div className="date-container">
+                    <div className="gruve-echo-date-container">
                       <ScheduleInfo eventData={eventDetails} />
                       <Location
                         location={eventDetails?.info?.eventLocation.label}
@@ -164,8 +164,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                         background: buttonColor,
                         color: buttonTextColor,
                       }}
-                      className={`get-tickets-btn ${
-                        !isSelected && "not-selected"
+                      className={`gruve-echo-get-tickets-btn ${
+                        !isSelected && "gruve-echo-not-selected"
                       }`}
                       onClick={handleGetTickets}
                     >
@@ -178,7 +178,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           )}
         </>
       )}
-      <div className="modal-footer">
+      <div className="gruve-echo-modal-footer">
         <div className="">
           <span className="">View Full Event Page</span>
           <ArrowRight />
