@@ -80,6 +80,8 @@ function App() {
 export default App
 ```
 
+
+
 ---
 
 ## ⚙️ Props
@@ -103,6 +105,50 @@ export default App
 
 ---
 
+## 🌐 Plain JS Embed
+
+GruveEventWidgets now supports embedding the checkout flow in non-React environments using a simple `<script>` tag and an anchor element.
+
+### Example Usage
+
+1. Add an anchor tag where you want the CTA button to appear:
+
+```html
+<a
+  href="https://gruve.events/event/0x11222"
+  class="gruve-cta-button"
+  data-gruve-action="checkout"
+  data-gruve-event-id="evt-JPSkdtkGLS4edke"
+>
+  Register for Event
+</a>
+```
+
+2. Include the Gruve embed script in your HTML:
+
+```html
+<script
+  id="gruve-cta"
+  src="https://embed.gruve.events/cta-button.js"
+  async
+></script>
+```
+
+### How It Works
+
+- The script automatically scans the page for elements with the class `gruve-cta-button` and the attribute `data-gruve-action="checkout"`.
+- It binds the checkout logic to these elements, enabling users to interact with the Gruve event flow.
+
+### Supported `data-` Attributes
+
+| Attribute               | Description                                                                 |
+| ----------------------- | --------------------------------------------------------------------------- |
+| `data-gruve-event-id`   | The unique identifier of the event.                                         |
+| `data-gruve-theme-color`| Optional. Overrides the default theme color for the button.                 |
+| `data-gruve-text`       | Optional. Custom text for the button (e.g., "Buy Tickets", "Register Now"). |
+
+---
+
 ## 📜 License
 
 This project is licensed under the MIT License.  
@@ -112,5 +158,8 @@ You are free to use, modify, and distribute this package for personal and commer
 
 ## 🤝 Contributions
 
-Contributions are welcome! Feel free to submit a pull request or open an issue if you encounter any bugs or want to add features.  
-```
+Contributions are welcome! Feel free to submit a pull request or open an issue if you encounter any bugs or want to add features.
+
+
+
+
