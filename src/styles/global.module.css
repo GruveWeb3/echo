@@ -4,14 +4,10 @@
   --font-primary: "Satoshi", sans-serif;
 }
 
-* {
+.gruve-package-s * {
   font-family: var(--font-primary);
   letter-spacing: 0;
 }
-
-/* button {
-  padding: 0px !important;
-} */
 
 .gruve-package-s h1,
 .gruve-package-s h2,
