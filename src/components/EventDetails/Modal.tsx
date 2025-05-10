@@ -25,8 +25,8 @@ const Modal = ({
   }, [openCheckout, openPaymentsModal]);
 
   return (
-    <div className="modal-overlay">
-      <div ref={contentRef} className="modal-content">
+    <div className="gruve-echo-modal-overlay">
+      <div ref={contentRef} className="gruve-echo-modal-content">
         <div className="">{children && children}</div>
       </div>
     </div>
