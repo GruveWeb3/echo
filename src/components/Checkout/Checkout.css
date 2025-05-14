@@ -42,6 +42,7 @@
   order: 2;
   border: 1px solid #e1e1e8;
 }
+
 .gruve-echo-go-back-btn:hover {
   background: #f7f7f7;
   cursor: pointer;
@@ -93,8 +94,8 @@
 }
 
 .gruve-package-s input,
-select,
-textarea {
+.gruve-package-s select,
+.gruve-package-s textarea {
   padding: 0.75rem;
   border: 1px solid #e1e1e8;
   border-radius: 0.5rem;
@@ -220,6 +221,7 @@ textarea {
   font-size: 18px;
   color: #2d2b4a;
 }
+
 .gruve-echo-questionss {
   display: flex;
   flex-direction: column;
@@ -237,6 +239,7 @@ textarea {
   font-weight: normal;
   color: #2d2b4a;
 }
+
 .gruve-echo-question-card > label > span {
   color: #ea445a;
 }
