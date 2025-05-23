@@ -41,7 +41,8 @@
     "@paystack/inline-js": "^2.22.2",
     "formik": "^2.4.6",
     "postcss": "^8.5.3",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
