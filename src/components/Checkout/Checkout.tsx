@@ -14,6 +14,7 @@ import {
   GET_BACKEND_URL,
   GET_BASE_URL,
   GET_PAYSTACK_KEY,
+  isEarlyBirdActive,
   randomizeLastFourDigits,
 } from "../../utils/utils";
 import paystackModal from "@paystack/inline-js";
@@ -261,17 +262,19 @@ const Checkout: React.FC<CheckoutProps> = ({
       tickets,
       ...(coupon ? { discountCode: coupon } : {}),
     };
-
     let _request;
     setIsSubmitting(true);
     try {
-      const res = await fetch(`${GET_BACKEND_URL(isTest)}/api/payment/paystack`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        `${GET_BACKEND_URL(isTest)}/api/payment/paystack`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const result = await res.json();
       _request = result?.data;
@@ -378,7 +381,18 @@ const Checkout: React.FC<CheckoutProps> = ({
       const costMap: any =
         updatedTicketsData &&
         updatedTicketsData
-          .map((elem: any, index) => ({ ...elem, _ticketType: index + 1 }))
+          .map((elem: any, index) => {
+            const earlyBirdActive = isEarlyBirdActive(elem?.earlyBird);
+            const finalCost = earlyBirdActive
+              ? elem?.discountedPrice ?? elem?.cost ?? 0
+              : elem?.cost ?? 0;
+
+            return {
+              ...elem,
+              _ticketType: index + 1,
+              cost: finalCost,
+            };
+          })
           .reduce(
             (result, value) => ({
               ...result,
