@@ -217,7 +217,10 @@ export function updatedTickets(tickets: any[], eventDetails: any) {
   }
 }
 
-function isEarlyBirdActive(earlyBird: { endDate: string; endTime: string }) {
+export function isEarlyBirdActive(earlyBird: {
+  endDate: string;
+  endTime: string;
+}) {
   if (!earlyBird?.endDate || !earlyBird?.endTime) return false;
 
   const endDate = new Date(earlyBird.endDate);

@@ -14,6 +14,7 @@ import {
   GET_BACKEND_URL,
   GET_BASE_URL,
   GET_PAYSTACK_KEY,
+  isEarlyBirdActive,
   randomizeLastFourDigits,
 } from "../../utils/utils";
 import paystackModal from "@paystack/inline-js";
@@ -121,8 +122,8 @@ const Checkout: React.FC<CheckoutProps> = ({
     eventAddress,
     email,
     tickets,
-    userAnswerArray = [],
-  }: HandlePurchaseEventParams): Promise<void> => {
+  }: // userAnswerArray = [],
+  HandlePurchaseEventParams): Promise<void> => {
     const data = {
       address: walletAddress,
       eventId,
@@ -145,7 +146,6 @@ const Checkout: React.FC<CheckoutProps> = ({
 
       if (res.ok) {
         setShowTicketPurchaseSuccess(true);
-        await submitUserAnswers(userAnswerArray);
       }
     } catch (e: any) {
       setIsSubmitting(false);
@@ -155,36 +155,12 @@ const Checkout: React.FC<CheckoutProps> = ({
     }
   };
 
-  const submitUserAnswers = async (userAnswerArray: any[]) => {
-    if (!Array.isArray(userAnswerArray) || userAnswerArray.length === 0) return;
-
-    try {
-      const response = await fetch(`${GET_BASE_URL(isTest)}/api/questions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userAnswerArray }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to submit answers: ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error("Error submitting user answers:", error);
-    }
-  };
-
   const handleSubmit = async (data: SubmittedTicket[]): Promise<void> => {
     let totalPrice = 0;
     data?.forEach((eachTickets) => {
       totalPrice += eachTickets?.cost * eachTickets?.quantity;
     });
 
-    const userAnswerArray = createUserAnswerArray(data);
-    setUserAnswerArray(userAnswerArray);
     if (totalPrice === 0) {
       handleFreeEventHandler({
         walletAddress: randomizeLastFourDigits(
@@ -194,7 +170,6 @@ const Checkout: React.FC<CheckoutProps> = ({
         eventAddress: eventDetailsWithId?.eventAddress,
         email: "package@gmail.com",
         tickets: data,
-        userAnswerArray,
       });
     } else {
       setOpenPaymentsModal(true);
@@ -261,17 +236,20 @@ const Checkout: React.FC<CheckoutProps> = ({
       tickets,
       ...(coupon ? { discountCode: coupon } : {}),
     };
-
     let _request;
+
     setIsSubmitting(true);
     try {
-      const res = await fetch(`${GET_BACKEND_URL(isTest)}/api/payment/paystack`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        `${GET_BACKEND_URL(isTest)}/api/payment/paystack`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const result = await res.json();
       _request = result?.data;
@@ -329,7 +307,7 @@ const Checkout: React.FC<CheckoutProps> = ({
         },
       });
 
-      await submitUserAnswers(userAnswerArray);
+      // await submitUserAnswers(userAnswerArray);
     } catch (e) {
       setIsSubmitting(false);
     }
@@ -378,7 +356,18 @@ const Checkout: React.FC<CheckoutProps> = ({
       const costMap: any =
         updatedTicketsData &&
         updatedTicketsData
-          .map((elem: any, index) => ({ ...elem, _ticketType: index + 1 }))
+          .map((elem: any, index) => {
+            const earlyBirdActive = isEarlyBirdActive(elem?.earlyBird);
+            const finalCost = earlyBirdActive
+              ? elem?.discountedPrice ?? elem?.cost ?? 0
+              : elem?.cost ?? 0;
+
+            return {
+              ...elem,
+              _ticketType: index + 1,
+              cost: finalCost,
+            };
+          })
           .reduce(
             (result, value) => ({
               ...result,

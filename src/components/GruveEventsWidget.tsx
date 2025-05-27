@@ -26,6 +26,29 @@ export interface IEventInfo {
   eventLink?: any;
 }
 
+type QuestionType =
+  | "text"
+  | "email"
+  | "website"
+  | "phone"
+  | "checkbox"
+  | "terms"
+  | "multiple"
+  | "socials"
+  | "single";
+
+export type IRegistrationQuestion = {
+  id: string;
+  title: string;
+  type: QuestionType;
+  required: boolean;
+  options?: any[]; // You can replace `any` with a specific type if you know the structure
+  termsContent?: string;
+  termsLink?: string;
+  socials?: string;
+  checkbox?: boolean;
+};
+
 export interface IEventData {
   timeZone: any;
   Attendee?: any;
@@ -47,6 +70,8 @@ export interface IEventData {
   }[];
   guests: any[];
   tickets: IITickets;
+  ticketingOption: string;
+  registrationQuestions: IRegistrationQuestion[];
 }
 
 export type IITickets = {

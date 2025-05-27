@@ -41,7 +41,7 @@ export interface SubmittedTicket {
   cost: number;
   ticketName: string;
   quantity: number;
-  questions: { id: string; answer: string; isRequired: string }[];
+  answers: { id: string; answer: string; isRequired: string }[];
   ticketTypeId: number;
 }
 
@@ -130,7 +130,7 @@ const TicketForm: React.FC<Props> = ({
       if (!entry.fullName || !entry.email) {
         return "Please fill all user details.";
       }
-      for (let q of entry.questions) {
+      for (let q of entry.answers) {
         if (q.isRequired === "True" && (!q.answer || q.answer.trim() === "")) {
           return "Please answer all required questions.";
         }
@@ -211,9 +211,10 @@ const TicketForm: React.FC<Props> = ({
         if (isMultiple === "no") {
           const answers =
             uniqueQuestions.map((q) => ({
-              id: q.id,
+              questionId: q.id,
               answer: values[`quickQuestion_${q.id}`] || "",
               isRequired: q.isRequired,
+              question: q?.question,
             })) || [];
 
           data = tickets.map((ticket) => ({
@@ -227,17 +228,18 @@ const TicketForm: React.FC<Props> = ({
             quantity: ticket?.quantity,
             ticketName: ticket?.ticketName,
             ticketTypeId: ticket.ticketTypeId,
-            questions: answers.filter((a) =>
-              ticket.requiredQuestion?.some((rq) => rq.id === a.id)
+            answers: answers.filter((a) =>
+              ticket.requiredQuestion?.some((rq) => rq.id === a.questionId)
             ),
           }));
         } else {
           data = tickets.map((ticket, index) => {
-            const questions =
+            const answers =
               ticket.requiredQuestion?.map((q) => ({
-                id: q.id,
                 answer: values[`question_${index}_${q.id}`] || "",
                 isRequired: q.isRequired,
+                question: q.question,
+                questionId: q.id,
               })) || [];
 
             return {
@@ -251,13 +253,15 @@ const TicketForm: React.FC<Props> = ({
               ...(values[`whatsAppNumber_${index}`] && {
                 whatsAppNumber: values[`whatsAppNumber_${index}`],
               }),
-              questions,
+              answers,
             };
           });
         }
         const isError = validateData(data);
         if (!isError) {
           setData(data);
+          console.log(data);
+          // return;
           handleSubmit(data);
         } else {
           setErrorMessage(isError);

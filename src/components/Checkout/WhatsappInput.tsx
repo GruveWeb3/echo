@@ -5,9 +5,11 @@ import { countryCodes } from "../../utils/counties";
 export default function WhatsAppInput({
   index,
   fieldName,
+  showLabel = true,
 }: {
   index: any;
   fieldName: string;
+  showLabel?: boolean;
 }) {
   const [field] = useField(fieldName);
   const { setFieldValue, values } = useFormikContext();
@@ -54,9 +56,11 @@ export default function WhatsAppInput({
 
   return (
     <div className="gruve-echo-form-cont" ref={dropdownRef}>
-      <label htmlFor={fieldName}>
-        {index ? "WhatsApp No" : "Receiver's WhatsApp No"}
-      </label>
+      {showLabel && (
+        <label htmlFor={fieldName}>
+          {index ? "WhatsApp No" : "Receiver's WhatsApp No"}
+        </label>
+      )}
 
       <div
         className="gruve-echo-whatsapp-container"

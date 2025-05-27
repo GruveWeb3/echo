@@ -18,6 +18,8 @@ import {
 } from "../../../types/echo";
 import TicketPurchaseSuccessfulModal from "../Tickets/TicketPurchaseSuccessfulModal";
 import { ITicketListed } from "../Checkout/TicketForm";
+import Registration from "../Registration/Registration";
+import { TruncatedHtmlContent } from "../Tickets/TruncatedText";
 
 interface EventDetailsProps {
   eventDetails: IEventData | null;
@@ -52,9 +54,13 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   const [selectedTickets, setSelectedTickets] = useState<SelectedTicket[]>([]);
   const [listedTickets, setListedTickets] = useState<ITicketListed[]>([]);
   const [openCheckout, setOpenCheckout] = useState(false);
+  const [openRegistration, setOpenRegistration] = useState(false);
   const [openPaymentsModal, setOpenPaymentsModal] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+
   const [showTicketPurchaseSuccess, setShowTicketPurchaseSuccess] =
     useState(false);
+  const [showRegistrationSuccess, setShowRegistrationSuccess] = useState(false);
 
   const questionsIds: string[] =
     eventDetails?.tickets?.map((eachTicket) => eachTicket?.sectionName) || [];
@@ -67,7 +73,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     setOpen(false);
     setOpenCheckout(false);
     setSelectedTickets([]);
+    setOpenRegistration(false);
     setShowTicketPurchaseSuccess(false);
+    setShowRegistrationSuccess(false);
   };
 
   const isSelected = selectedTickets.length > 0;
@@ -88,38 +96,57 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       isOpen={open}
       openCheckout={openCheckout}
       openPaymentsModal={openPaymentsModal}
+      openRegistration={openRegistration}
     >
-      {showTicketPurchaseSuccess ? (
+      {showTicketPurchaseSuccess || showRegistrationSuccess ? (
         <TicketPurchaseSuccessfulModal
           close={handleClose}
           BASE_URL={GET_BASE_URL(isTest)}
           buttonColor={buttonColor}
+          userEmail={userEmail}
+          eventType={eventDetails?.ticketingOption}
           buttonTextColor={buttonColor}
         />
       ) : (
         <>
-          {openCheckout ? (
+          {openCheckout || openRegistration ? (
             <>
-              <Checkout
-                rates={rates}
-                coupons={coupons}
-                setOpenCheckout={setOpenCheckout}
-                setOpenPaymentsModal={setOpenPaymentsModal}
-                openPaymentsModal={openPaymentsModal}
-                listedTickets={listedTickets}
-                currentCurrency={currentCurrency}
-                setListedTickets={setListedTickets}
-                selectedTickets={selectedTickets}
-                eventDetailsWithId={eventDetailsWithId}
-                setShowTicketPurchaseSuccess={setShowTicketPurchaseSuccess}
-                setSelectedTickets={setSelectedTickets}
-                questionsToDisplay={questionsToDisplay}
-                updatedTicketsData={updatedTicketsData}
-                buttonColor={buttonColor}
-                buttonTextColor={buttonTextColor}
-                handleCloseModal={handleClose}
-                isTest={isTest}
-              />
+              {openCheckout && (
+                <>
+                  <Checkout
+                    rates={rates}
+                    coupons={coupons}
+                    setOpenCheckout={setOpenCheckout}
+                    setOpenPaymentsModal={setOpenPaymentsModal}
+                    openPaymentsModal={openPaymentsModal}
+                    listedTickets={listedTickets}
+                    currentCurrency={currentCurrency}
+                    setListedTickets={setListedTickets}
+                    selectedTickets={selectedTickets}
+                    eventDetailsWithId={eventDetailsWithId}
+                    setShowTicketPurchaseSuccess={setShowTicketPurchaseSuccess}
+                    setSelectedTickets={setSelectedTickets}
+                    questionsToDisplay={questionsToDisplay}
+                    updatedTicketsData={updatedTicketsData}
+                    buttonColor={buttonColor}
+                    buttonTextColor={buttonTextColor}
+                    handleCloseModal={handleClose}
+                    isTest={isTest}
+                  />
+                </>
+              )}
+              {openRegistration && (
+                <Registration
+                  handleCloseModal={handleClose}
+                  setOpenRegistration={setOpenRegistration}
+                  eventData={eventDetails}
+                  creator={eventDetailsWithId?.creator}
+                  isTest={isTest}
+                  setUserEmail={setUserEmail}
+                  address={eventDetailsWithId?.eventAddress}
+                  setShowRegistrationSuccess={setShowRegistrationSuccess}
+                />
+              )}
             </>
           ) : (
             <>
@@ -134,7 +161,10 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                   <div className="gruve-echo-event-img-container">
                     <img
                       className="gruve-echo-event-imge max-w-[400px] max-h-[400px] size-[400px] rounded-lg"
-                      src={eventDetails?.info?.eventImage}
+                      src={eventDetails?.info?.eventImage.replace(
+                        "gateway.lighthouse.storage",
+                        "backend.gruve.events"
+                      )}
                       alt=""
                     />
                   </div>
@@ -146,31 +176,52 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                         location={eventDetails?.info?.eventLocation.label}
                       />
                     </div>
-                    <div className="">
-                      <Tickets
-                        currentCurrency={currentCurrency}
-                        setCurrentCurrency={setCurrentCurrency}
-                        tickets={updatedTicketsData}
-                        eventDetails={eventDetails}
-                        selectedTickets={selectedTickets}
-                        rates={rates}
-                        ticketBalances={ticketBalances}
-                        setSelectedTickets={setSelectedTickets}
-                      />
-                    </div>
-                    <button
-                      disabled={!isSelected}
-                      style={{
-                        background: buttonColor,
-                        color: buttonTextColor,
-                      }}
-                      className={`gruve-echo-get-tickets-btn ${
-                        !isSelected && "gruve-echo-not-selected"
-                      }`}
-                      onClick={handleGetTickets}
-                    >
-                      Get Tickets
-                    </button>
+                    {eventDetails?.ticketingOption === "registration" ? (
+                      <div className="gruve-echo-registration__">
+                        <h2 className="gruve-echo-registration-header">
+                          Registration
+                        </h2>
+                        <div className="gruve-echo-registration-div">
+                          <TruncatedHtmlContent
+                            htmlContent={eventDetails?.info?.description}
+                          />
+                          <button
+                            className={`gruve-echo-get-tickets-btn`}
+                            onClick={() => setOpenRegistration(true)}
+                          >
+                            Register
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="">
+                          <Tickets
+                            currentCurrency={currentCurrency}
+                            setCurrentCurrency={setCurrentCurrency}
+                            tickets={updatedTicketsData}
+                            eventDetails={eventDetails}
+                            selectedTickets={selectedTickets}
+                            rates={rates}
+                            ticketBalances={ticketBalances}
+                            setSelectedTickets={setSelectedTickets}
+                          />
+                        </div>
+                        <button
+                          disabled={!isSelected}
+                          style={{
+                            background: buttonColor,
+                            color: buttonTextColor,
+                          }}
+                          className={`gruve-echo-get-tickets-btn ${
+                            !isSelected && "gruve-echo-not-selected"
+                          }`}
+                          onClick={handleGetTickets}
+                        >
+                          Get Tickets
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
