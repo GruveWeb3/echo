@@ -3,9 +3,8 @@ import EventDetails from "./EventDetails/EventDetails";
 import { IEventType, QuestionList, TicketDiscountList } from "../../types/echo";
 import "./index.css";
 import "../styles/global.module.css";
-import Loader from "./Loader/Loader";
 import { GET_BACKEND_URL, GET_BASE_URL } from "../utils/utils";
-
+import "../components/Loader/loader.css";
 export interface TagsOptions {
   value: string;
   label: string;
@@ -173,7 +172,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   const handleClick = () => {
     fetchCoupon();
     setOpen(true);
-    if (!eventDetails) {
+    if (!eventDetails || eventDetailsWithId?.eventAddress !== eventAddress) {
       fetchEventDetails();
       fetchRates();
     }
@@ -197,7 +196,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
       )}
       {loading ? (
         <div className="_">
-          <Loader />
+          <span className="gruve-package-echo-home-loader"></span>
         </div>
       ) : (
         <EventDetails

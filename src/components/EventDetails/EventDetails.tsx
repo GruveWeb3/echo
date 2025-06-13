@@ -69,10 +69,20 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     questionsIds.includes(eachQuestion?.sectionName)
   );
 
+  const [isListening, setIsListening] = useState<Boolean>(false);
+  const [paymentDetails, setPaymentDetails] = useState(null);
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+  const [onSuccess, setOnSuccess] = useState(false);
+  const [isFree, setIsFree] = useState(false);
+
   const handleClose = () => {
     setOpen(false);
+    setIsFree(false);
     setOpenCheckout(false);
     setSelectedTickets([]);
+    setIsListening(false);
+    setOnSuccess(false);
+    setOpenConfirmationModal(false);
     setOpenRegistration(false);
     setShowTicketPurchaseSuccess(false);
     setShowRegistrationSuccess(false);
@@ -98,7 +108,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       openPaymentsModal={openPaymentsModal}
       openRegistration={openRegistration}
     >
-      {showTicketPurchaseSuccess || showRegistrationSuccess ? (
+      {showTicketPurchaseSuccess || showRegistrationSuccess || isListening ? (
         <TicketPurchaseSuccessfulModal
           close={handleClose}
           BASE_URL={GET_BASE_URL(isTest)}
@@ -106,6 +116,12 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           userEmail={userEmail}
           eventType={eventDetails?.ticketingOption}
           buttonTextColor={buttonColor}
+          paymentDetails={paymentDetails}
+          onSuccess={onSuccess}
+          isFree={isFree}
+          isTest={isTest}
+          setOnSuccess={setOnSuccess}
+          openConfirmation={openConfirmationModal}
         />
       ) : (
         <>
@@ -118,6 +134,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                     coupons={coupons}
                     setOpenCheckout={setOpenCheckout}
                     setOpenPaymentsModal={setOpenPaymentsModal}
+                    setIsFree={setIsFree}
+                    setOnSuccess={setOnSuccess}
                     openPaymentsModal={openPaymentsModal}
                     listedTickets={listedTickets}
                     currentCurrency={currentCurrency}
@@ -132,6 +150,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                     buttonTextColor={buttonTextColor}
                     handleCloseModal={handleClose}
                     isTest={isTest}
+                    setPaymentDetails={setPaymentDetails}
+                    setIsListening={setIsListening}
+                    setOpenConfirmationModal={setOpenConfirmationModal}
                   />
                 </>
               )}

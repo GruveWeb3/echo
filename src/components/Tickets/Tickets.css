@@ -66,6 +66,7 @@
   border-radius: 16px;
   padding: 16px;
   gap: 8px;
+  position: relative;
   flex-direction: column;
   border: 1px solid #e1e1e8;
 }
@@ -156,4 +157,33 @@
   font-weight: 400;
   font-size: 0.75rem;
   text-decoration: line-through;
+}
+
+.sold-out-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9000;
+}
+
+.sold-out-text {
+  font-weight: 800;
+  color: #0b0c0c;
+  font-size: 0.875rem;
+  z-index: 9999;
+}
+
+.gruve-echo-sold-out-bg {
+  background: #393a3c26;
+  cursor: not-allowed;
+}
+
+.ticket-content.blurred {
+  filter: blur(2px);
+  transition: filter 0.2s ease;
 }

@@ -260,8 +260,6 @@ const TicketForm: React.FC<Props> = ({
         const isError = validateData(data);
         if (!isError) {
           setData(data);
-          console.log(data);
-          // return;
           handleSubmit(data);
         } else {
           setErrorMessage(isError);
@@ -289,40 +287,46 @@ const TicketForm: React.FC<Props> = ({
                     <CloseIcon />
                   </div>
                 </div>
-                <div className="gruve-echo-form-group gruve-echo-form-gr-t">
-                  <label>Send tickets separately?</label>
-                  <span>
-                    Tickets will be emailed separately to each attendee based on
-                    the quantity purchased.
-                  </span>
+                {tickets && tickets.length > 1 && (
+                  <div className="gruve-echo-form-group gruve-echo-form-gr-t">
+                    <label>Send tickets separately?</label>
+                    <span>
+                      Tickets will be emailed separately to each attendee based
+                      on the quantity purchased.
+                    </span>
 
-                  <div className="gruve-echo-radio-options">
-                    <label>
-                      <Field
-                        type="radio"
-                        name="is_multiple"
-                        value="yes"
-                        className="custom-radio"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          setIsMultiple(e.target.value);
-                        }}
-                      />
-                      <span>Yes</span>
-                    </label>
-                    <label>
-                      <Field
-                        type="radio"
-                        name="is_multiple"
-                        value="no"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          setIsMultiple(e.target.value);
-                        }}
-                        className="custom-radio"
-                      />
-                      <span>No</span>
-                    </label>
+                    <div className="gruve-echo-radio-options">
+                      <label>
+                        <Field
+                          type="radio"
+                          name="is_multiple"
+                          value="yes"
+                          className="custom-radio"
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            setIsMultiple(e.target.value);
+                          }}
+                        />
+                        <span>Yes</span>
+                      </label>
+                      <label>
+                        <Field
+                          type="radio"
+                          name="is_multiple"
+                          value="no"
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            setIsMultiple(e.target.value);
+                          }}
+                          className="custom-radio"
+                        />
+                        <span>No</span>
+                      </label>
+                    </div>
                   </div>
-                </div>
+                )}
                 {isMultiple === "no" && (
                   <div
                     style={{
@@ -652,7 +656,7 @@ const TicketForm: React.FC<Props> = ({
                 Back
               </div>
               {isSubmitting ? (
-                <div className="gruve-echo-loading-btn">
+                <div className="gruve-echo-loading-btn gruve-event-loader-container-order">
                   <div className="gruve-event-loader-spinner"></div>
                 </div>
               ) : (
