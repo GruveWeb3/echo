@@ -31,6 +31,8 @@ interface CheckoutProps {
   rates: Record<string, number>;
   selectedTickets: SelectedTicket[];
   setShowTicketPurchaseSuccess: (val: boolean) => void;
+  setIsFree: (val: boolean) => void;
+  setOnSuccess: (val: boolean) => void;
   setListedTickets: React.Dispatch<React.SetStateAction<ITicketListed[]>>;
   setSelectedTickets: React.Dispatch<React.SetStateAction<SelectedTicket[]>>;
   coupons: any[];
@@ -38,6 +40,9 @@ interface CheckoutProps {
   buttonColor: string;
   buttonTextColor: string;
   isTest: boolean;
+  setIsListening: any;
+  setOpenConfirmationModal: any;
+  setPaymentDetails: any;
 }
 
 const Checkout: React.FC<CheckoutProps> = ({
@@ -59,10 +64,14 @@ const Checkout: React.FC<CheckoutProps> = ({
   isTest,
   buttonColor,
   buttonTextColor,
+  setIsListening,
+  setOpenConfirmationModal,
+  setPaymentDetails,
+  setIsFree,
+  setOnSuccess,
 }) => {
   const [tickets, setTickets] = useState<ITicketListed[]>(listedTickets);
   const [isMultiple, setIsMultiple] = useState("yes");
-  const [userAnswerArray, setUserAnswerArray] = useState<any>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -122,8 +131,7 @@ const Checkout: React.FC<CheckoutProps> = ({
     eventAddress,
     email,
     tickets,
-  }: // userAnswerArray = [],
-  HandlePurchaseEventParams): Promise<void> => {
+  }: HandlePurchaseEventParams): Promise<void> => {
     const data = {
       address: walletAddress,
       eventId,
@@ -135,6 +143,11 @@ const Checkout: React.FC<CheckoutProps> = ({
     };
 
     setIsSubmitting(true);
+    setTimeout(() => {
+      setIsFree(true);
+      setIsListening(true);
+      setOpenConfirmationModal(true);
+    }, 2000);
     try {
       const res = await fetch(`${GET_BACKEND_URL(isTest)}/api/add_free_event`, {
         method: "POST",
@@ -145,6 +158,9 @@ const Checkout: React.FC<CheckoutProps> = ({
       });
 
       if (res.ok) {
+        const result = await res.json();
+        setOnSuccess(true);
+        setPaymentDetails(result);
         setShowTicketPurchaseSuccess(true);
       }
     } catch (e: any) {
@@ -253,13 +269,14 @@ const Checkout: React.FC<CheckoutProps> = ({
 
       const result = await res.json();
       _request = result?.data;
-
-      const data = {
-        email,
-        amount: _request.amountToPay,
-        tickets: tickets,
-        eventAddress,
-      };
+      setPaymentDetails(_request);
+      setIsListening(true);
+      // const data = {
+      //   email,
+      //   amount: _request.amountToPay,
+      //   tickets: tickets,
+      //   eventAddress,
+      // };
       const amount = totalPrice * rate * 100;
 
       const _payStack = new paystackModal();
@@ -297,10 +314,12 @@ const Checkout: React.FC<CheckoutProps> = ({
         onLoad() {},
         onSuccess(transaction) {
           setShowTicketPurchaseSuccess(true);
+          setOpenConfirmationModal(true);
           setOpenPaymentsModal(false);
         },
         onCancel() {
           setIsSubmitting(false);
+          setIsListening(false);
         },
         onError() {
           setIsSubmitting(false);
