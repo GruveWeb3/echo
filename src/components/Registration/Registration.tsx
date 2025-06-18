@@ -21,6 +21,9 @@ interface RegistrationProps {
   creator: string | undefined;
   address: string | undefined;
   isTest: boolean;
+  onSuccess?: (response: any) => void;
+  onError?: (error: any) => void;
+  setIsFree: (val: boolean) => void;
 }
 
 const Registration: React.FC<RegistrationProps> = ({
@@ -32,6 +35,9 @@ const Registration: React.FC<RegistrationProps> = ({
   isTest,
   setShowRegistrationSuccess,
   setUserEmail,
+  setIsFree,
+  onSuccess,
+  onError,
 }) => {
   const handleGoBack = () => {
     setOpenRegistration(false);
@@ -329,9 +335,16 @@ const Registration: React.FC<RegistrationProps> = ({
       if (!res.ok) {
         throw new Error(data.message || "Something went wrong");
       }
+      const responsePayload = {
+        status: "success",
+        data: [data],
+      };
+      setIsFree(true);
+      onSuccess?.(responsePayload);
       setShowRegistrationSuccess(true);
     } catch (error) {
       console.error(error);
+      onError?.(error);
     } finally {
       setSubmitting(false);
     }

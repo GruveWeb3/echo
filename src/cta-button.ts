@@ -1,0 +1,34 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import GruveEventWidgets from "./components/GruveEventsWidget";
+
+export function GruveCDNCta() {
+  if (typeof window === "undefined") return;
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".gruve-cta-button");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const eventAddress = btn.getAttribute("data-gruve-event-id");
+        const isTest = btn.getAttribute("data-gruve-test") === "true";
+
+        if (!eventAddress) return;
+
+        const container = document.createElement("div");
+        document.body.appendChild(container);
+
+        const root = ReactDOM.createRoot(container);
+        root.render(
+          React.createElement(GruveEventWidgets, {
+            eventAddress,
+            isTest,
+            triggerOnMount: true,
+          })
+        );
+      });
+    });
+  });
+}

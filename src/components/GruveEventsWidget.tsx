@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventDetails from "./EventDetails/EventDetails";
 import { IEventType, QuestionList, TicketDiscountList } from "../../types/echo";
 import "./index.css";
@@ -42,7 +42,7 @@ export type IRegistrationQuestion = {
   title: string;
   type: QuestionType;
   required: boolean;
-  options?: any[]; // You can replace `any` with a specific type if you know the structure
+  options?: any[];
   termsContent?: string;
   termsLink?: string;
   socials?: string;
@@ -89,11 +89,16 @@ export type IITickets = {
 export interface GruveEventWidgetsProps {
   eventAddress: string;
   isTest?: boolean;
+
+  onSuccess?: (response: any) => void;
+  onError?: (error: any) => void;
+
   config?: React.CSSProperties & {
     themeColor?: string;
     displayText?: string;
   };
   children?: React.ReactNode;
+  triggerOnMount?: boolean;
 }
 
 const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
@@ -101,6 +106,9 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   isTest = false,
   config,
   children,
+  onSuccess,
+  onError,
+  triggerOnMount = false,
 }) => {
   const [eventDetails, setEventDetails] = useState<IEventData | null>(null);
   const [eventDetailsWithId, setEventDetailsWithId] =
@@ -179,21 +187,31 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (triggerOnMount) {
+      handleClick();
+    }
+  }, [triggerOnMount]);
+
   const buttonColor = config?.themeColor ? config?.themeColor : "#ea445a";
   const buttonText = config?.displayText ? config?.displayText : "Get ticket";
   const buttonTextColor = config?.color ? config.color : "white";
   return (
     <div className="my-package-container gruve-package-s">
-      {children ? (
-        <div onClick={handleClick}>{children}</div>
-      ) : (
-        <button
-          onClick={handleClick}
-          style={{ border: "none", ...config }}
-          className="gruve-event-details-btn"
-        >
-          {buttonText}
-        </button>
+      {!triggerOnMount && (
+        <>
+          {children ? (
+            <div onClick={handleClick}>{children}</div>
+          ) : (
+            <button
+              onClick={handleClick}
+              style={{ border: "none", ...config }}
+              className="gruve-event-details-btn"
+            >
+              {buttonText}
+            </button>
+          )}
+        </>
       )}
       {loading ? (
         <div className="_">
@@ -206,6 +224,8 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
           eventDetailsWithId={eventDetailsWithId}
           setOpen={setOpen}
           questions={questions}
+          onSuccess={onSuccess}
+          onError={onError}
           rates={rates}
           coupons={coupons}
           couponData={couponData}

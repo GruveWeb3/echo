@@ -34,11 +34,11 @@
 }
 
 .gruve-echo-modal-heading-tickets {
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .gruve-echo-modal-text {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.8rem;
   font-size: 14px;
   color: #666481;
 }
@@ -58,6 +58,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-top: 4px;
 }
 
 .gruve-echo-download-in-button div {
@@ -86,7 +87,7 @@
   justify-content: center;
   width: 100%;
   font-size: 16px;
-  margin-top: 8px;
+  margin-top: 4px;
   text-decoration: none;
 }
 
@@ -261,4 +262,21 @@
   87% {
     box-shadow: 0.2em -0.2em 0 0 currentcolor;
   }
+}
+
+.gruve-echo-purchase-successful-info-container {
+  display: flex;
+  align-items: center;
+  background: #fff2e6;
+  padding: 8px 12px;
+  border-radius: 16px;
+  width: 100%;
+  gap: 8px;
+}
+
+.gruve-echo-purchase-successful-info-container span {
+  color: #0b0c0c;
+  font-size: 14px;
+  font-weight: medium;
+  text-align: start;
 }

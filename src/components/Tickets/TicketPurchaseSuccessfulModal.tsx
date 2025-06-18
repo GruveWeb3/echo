@@ -4,6 +4,7 @@ import { SucessfulConnect } from "../../asset/SuccessfulConnect";
 import CloseIcon from "../../asset/CloseIcon";
 import { HourGlass } from "../../asset/HourGlass";
 import { GET_BACKEND_URL } from "../../utils/utils";
+import { WarningInfo } from "../../asset/WarningInfo";
 
 interface Props {
   close: () => void;
@@ -14,8 +15,8 @@ interface Props {
   eventType: string | undefined;
   openConfirmation: boolean;
   isFree: boolean;
-  onSuccess: boolean;
-  setOnSuccess: (val: boolean) => void;
+  onSuccessPurchase: boolean;
+  setOnSuccessPurchase: (val: boolean) => void;
   paymentDetails: any;
   isTest: boolean;
 }
@@ -34,8 +35,8 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
   userEmail,
   openConfirmation,
   paymentDetails,
-  onSuccess,
-  setOnSuccess,
+  onSuccessPurchase,
+  setOnSuccessPurchase,
   isFree,
   isTest,
 }) => {
@@ -73,7 +74,7 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
           { url: imageUrl, name },
         ];
         setImageList(imageListRef.current);
-        setOnSuccess(true);
+        setOnSuccessPurchase(true);
 
         if (paymentDetails?.tickets?.length === imageListRef.current.length) {
           es.close();
@@ -156,7 +157,11 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
             <h2 className="gruve-echo-modal-heading">
               Registration successful
             </h2>
-            <p className="gruve-echo-modal-text">
+
+            <p
+              className="gruve-echo-modal-text"
+              style={{ marginBottom: "16px" }}
+            >
               A confirmation email has been sent to{" "}
               <strong>{userEmail}. </strong>
               Please sign in to see more details and manage your registration
@@ -174,7 +179,7 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
           <>
             {openConfirmation ? (
               <>
-                {onSuccess ? (
+                {onSuccessPurchase ? (
                   <>
                     <span className="gruve-package-echo-loader-green">
                       <SucessfulConnect />
@@ -188,6 +193,13 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
                       please check your spam folder. Sign in to view more
                       details and manage your registration.
                     </p>
+                    <div className="gruve-echo-purchase-successful-info-container">
+                      <WarningInfo />
+                      <span>
+                        You can also download your tickets later by logging into
+                        Gruve account with the email(s) used for purchase.
+                      </span>
+                    </div>
                     <div className="gruve-echo-download-in-button">
                       <div className="" onClick={handleDownload}>
                         Download ticket(s)

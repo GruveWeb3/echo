@@ -34,6 +34,8 @@ interface EventDetailsProps {
   isTest: boolean;
   buttonColor: string;
   buttonTextColor: string;
+  onSuccess?: (response: any) => void;
+  onError?: (error: any) => void;
 }
 
 const EventDetails: React.FC<EventDetailsProps> = ({
@@ -49,6 +51,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   isTest,
   buttonColor,
   buttonTextColor,
+  onSuccess,
+  onError,
 }) => {
   const [currentCurrency, setCurrentCurrency] = useState("NGN");
   const [selectedTickets, setSelectedTickets] = useState<SelectedTicket[]>([]);
@@ -72,7 +76,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   const [isListening, setIsListening] = useState<Boolean>(false);
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const [onSuccess, setOnSuccess] = useState(false);
+  const [onSuccessPurchase, setOnSuccessPurchase] = useState(false);
   const [isFree, setIsFree] = useState(false);
 
   const handleClose = () => {
@@ -81,7 +85,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     setOpenCheckout(false);
     setSelectedTickets([]);
     setIsListening(false);
-    setOnSuccess(false);
+    setOnSuccessPurchase(false);
     setOpenConfirmationModal(false);
     setOpenRegistration(false);
     setShowTicketPurchaseSuccess(false);
@@ -117,10 +121,10 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           eventType={eventDetails?.ticketingOption}
           buttonTextColor={buttonColor}
           paymentDetails={paymentDetails}
-          onSuccess={onSuccess}
+          onSuccessPurchase={onSuccessPurchase}
           isFree={isFree}
           isTest={isTest}
-          setOnSuccess={setOnSuccess}
+          setOnSuccessPurchase={setOnSuccessPurchase}
           openConfirmation={openConfirmationModal}
         />
       ) : (
@@ -135,7 +139,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                     setOpenCheckout={setOpenCheckout}
                     setOpenPaymentsModal={setOpenPaymentsModal}
                     setIsFree={setIsFree}
-                    setOnSuccess={setOnSuccess}
+                    setOnSuccessPurchase={setOnSuccessPurchase}
                     openPaymentsModal={openPaymentsModal}
                     listedTickets={listedTickets}
                     currentCurrency={currentCurrency}
@@ -152,6 +156,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                     isTest={isTest}
                     setPaymentDetails={setPaymentDetails}
                     setIsListening={setIsListening}
+                    onSuccess={onSuccess}
+                    onError={onError}
                     setOpenConfirmationModal={setOpenConfirmationModal}
                   />
                 </>
@@ -166,6 +172,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                   setUserEmail={setUserEmail}
                   address={eventDetailsWithId?.eventAddress}
                   setShowRegistrationSuccess={setShowRegistrationSuccess}
+                  setIsFree={setIsFree}
+                  onSuccess={onSuccess}
+                  onError={onError}
                 />
               )}
             </>
