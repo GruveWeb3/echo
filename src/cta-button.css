@@ -1,0 +1,17 @@
+.gruve-cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #ea445a;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gruve-cta-button:hover {
+  background-color: #c33648;
+}
