@@ -89,25 +89,23 @@ export default App;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@gruve/echo@latest/dist/cta-button.css"
+    />
+  </head>
+  <body>
+    <a
+      class="gruve-cta-button"
+      data-gruve-event-address="0x1508DfF27C5BfFC5810976fBCB3************"
+    >
+      Buy Ticket
+    </a>
+
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@gruve/echo@latest/dist/index.umd.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      const widget = new window.GruveEventsWidget.GruveWidget();
-      widget.render({
-        target: "#root",
-        props: {
-          eventAddress: "0x1508DfF27C5BfFC5810976fBCB3************",
-          config: {
-            backgroundColor: '#EA445A',
-            ...
-          }
-        }
-      });
-    </script>
   </body>
 </html>
 ```
