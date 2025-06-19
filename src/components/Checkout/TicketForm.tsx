@@ -125,6 +125,16 @@ const TicketForm: React.FC<Props> = ({
   const [data, setData] = useState<any>([]);
   const eventAddress = eventDetailsWithId?.eventAddress;
 
+  const color = buttonColor ? buttonColor : "#ea445a";
+  const loaderStyle = {
+    border: `4px solid  ${color}`,
+    borderTopColor: "transparent",
+    width: "24px",
+    height: "24px",
+    borderRadius: "50%",
+    animation: "spin 0.7s linear infinite",
+  };
+
   const validateData = (data: SubmittedTicket[]) => {
     for (let entry of data) {
       if (!entry.fullName || !entry.email) {
@@ -271,7 +281,7 @@ const TicketForm: React.FC<Props> = ({
           <div className="">
             {openPaymentsModal ? (
               <div className="">
-                <Payment goBack={handleClosePayment} />
+                <Payment themeColor={buttonColor} goBack={handleClosePayment} />
               </div>
             ) : (
               <div className="">
@@ -301,6 +311,7 @@ const TicketForm: React.FC<Props> = ({
                           type="radio"
                           name="is_multiple"
                           value="yes"
+                          style={{ accentColor: buttonColor }}
                           className="custom-radio"
                           onChange={(
                             e: React.ChangeEvent<HTMLInputElement>
@@ -320,6 +331,7 @@ const TicketForm: React.FC<Props> = ({
                           ) => {
                             setIsMultiple(e.target.value);
                           }}
+                          style={{ accentColor: buttonColor }}
                           className="custom-radio"
                         />
                         <span>No</span>
@@ -369,7 +381,14 @@ const TicketForm: React.FC<Props> = ({
                                 <label>
                                   {q.question}
                                   {q?.isRequired === "True" && (
-                                    <span className="">*</span>
+                                    <span
+                                      style={{
+                                        color: buttonColor,
+                                      }}
+                                      className=""
+                                    >
+                                      *
+                                    </span>
                                   )}
                                 </label>
                                 <Field
@@ -467,7 +486,13 @@ const TicketForm: React.FC<Props> = ({
                                         <label>
                                           {question.question}
                                           {question.isRequired === "True" && (
-                                            <span>*</span>
+                                            <span
+                                              style={{
+                                                color: buttonColor,
+                                              }}
+                                            >
+                                              *
+                                            </span>
                                           )}
                                         </label>
                                         <Field
@@ -580,6 +605,7 @@ const TicketForm: React.FC<Props> = ({
                             );
                           }
                         }}
+                        style={{ color: buttonColor }}
                         className={`apply ${
                           !discountCode && "gruve-echo-disable"
                         }`}
@@ -628,7 +654,10 @@ const TicketForm: React.FC<Props> = ({
               </div>
               {isSubmitting ? (
                 <div className="gruve-echo-loading-btn gruve-event-loader-container-order">
-                  <div className="gruve-event-loader-spinner"></div>
+                  <div
+                    style={loaderStyle}
+                    className="gruve-event-loader-spinner"
+                  ></div>
                 </div>
               ) : (
                 <button
@@ -657,7 +686,10 @@ const TicketForm: React.FC<Props> = ({
               </div>
               {isSubmitting ? (
                 <div className="gruve-echo-loading-btn gruve-event-loader-container-order">
-                  <div className="gruve-event-loader-spinner"></div>
+                  <div
+                    style={loaderStyle}
+                    className="gruve-event-loader-spinner"
+                  ></div>
                 </div>
               ) : (
                 <button

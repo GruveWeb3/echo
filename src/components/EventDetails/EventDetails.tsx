@@ -119,11 +119,13 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           buttonColor={buttonColor}
           userEmail={userEmail}
           eventType={eventDetails?.ticketingOption}
-          buttonTextColor={buttonColor}
+          buttonTextColor={buttonTextColor}
           paymentDetails={paymentDetails}
           onSuccessPurchase={onSuccessPurchase}
+          onSuccess={onSuccess}
           isFree={isFree}
           isTest={isTest}
+          registrationLoading={isListening}
           setOnSuccessPurchase={setOnSuccessPurchase}
           openConfirmation={openConfirmationModal}
         />
@@ -174,7 +176,10 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                   setShowRegistrationSuccess={setShowRegistrationSuccess}
                   setIsFree={setIsFree}
                   onSuccess={onSuccess}
+                  setIsListening={setIsListening}
                   onError={onError}
+                  buttonColor={buttonColor}
+                  buttonTextColor={buttonTextColor}
                 />
               )}
             </>
@@ -201,7 +206,10 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                   <div className="gruve-echo-details">
                     <h3 className=""> {eventDetails?.info?.eventName}</h3>
                     <div className="gruve-echo-date-container">
-                      <ScheduleInfo eventData={eventDetails} />
+                      <ScheduleInfo
+                        themeColor={buttonColor}
+                        eventData={eventDetails}
+                      />
                       <Location
                         location={eventDetails?.info?.eventLocation.label}
                       />
@@ -216,6 +224,11 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             htmlContent={eventDetails?.info?.description}
                           />
                           <button
+                            style={{
+                              background: buttonColor,
+                              color: buttonTextColor,
+                              border: "none",
+                            }}
                             className={`gruve-echo-get-tickets-btn`}
                             onClick={() => setOpenRegistration(true)}
                           >
@@ -240,7 +253,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                         <button
                           disabled={!isSelected}
                           style={{
-                            background: buttonColor,
+                            background: buttonColor ? buttonColor : "#ea445a",
                             color: buttonTextColor,
                             border: "none",
                           }}

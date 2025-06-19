@@ -202,6 +202,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   const buttonColor = config?.themeColor ? config?.themeColor : "#ea445a";
   const buttonText = config?.displayText ? config?.displayText : "Get ticket";
   const buttonTextColor = config?.color ? config.color : "white";
+
   return (
     <div className="my-package-container gruve-package-s">
       {!triggerOnMount && (
@@ -211,7 +212,11 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
           ) : (
             <button
               onClick={handleClick}
-              style={{ border: "none", ...config }}
+              style={{
+                border: "none",
+                background: buttonColor ? buttonColor : "",
+                ...config,
+              }}
               className="gruve-event-details-btn"
             >
               {buttonText}
@@ -237,7 +242,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
           couponData={couponData}
           ticketBalances={ticketBalances}
           isTest={isTest}
-          buttonColor={buttonColor}
+          buttonColor={buttonColor === "#ea445a" ? "" : buttonColor}
           buttonTextColor={buttonTextColor}
         />
       )}

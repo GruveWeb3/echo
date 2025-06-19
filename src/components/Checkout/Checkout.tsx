@@ -321,11 +321,6 @@ const Checkout: React.FC<CheckoutProps> = ({
           setShowTicketPurchaseSuccess(true);
           setOpenConfirmationModal(true);
           setOpenPaymentsModal(false);
-          const responsePayload = {
-            status: "success",
-            data: tickets,
-          };
-          onSuccess?.(responsePayload);
         },
         onCancel() {
           setIsSubmitting(false);
@@ -335,8 +330,6 @@ const Checkout: React.FC<CheckoutProps> = ({
           setIsSubmitting(false);
         },
       });
-
-      // await submitUserAnswers(userAnswerArray);
     } catch (e) {
       setIsSubmitting(false);
     }

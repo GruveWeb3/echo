@@ -15,6 +15,8 @@ export function GruveCDNCta() {
 
         const eventAddress = btn.getAttribute("data-gruve-event-address");
         const isTest = btn.getAttribute("data-gruve-test") === "true";
+        const themeColor = btn.getAttribute("data-gruve-theme-color") || "";
+        const color = btn.getAttribute("data-gruve-button-text-color") || "";
 
         if (!eventAddress) return;
 
@@ -27,6 +29,10 @@ export function GruveCDNCta() {
             eventAddress,
             isTest,
             triggerOnMountValue: CDN_KEY_FOR_SCRIPT,
+            config: {
+              themeColor,
+              color,
+            },
           })
         );
       });

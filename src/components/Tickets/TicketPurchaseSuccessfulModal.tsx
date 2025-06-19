@@ -19,6 +19,8 @@ interface Props {
   setOnSuccessPurchase: (val: boolean) => void;
   paymentDetails: any;
   isTest: boolean;
+  onSuccess?: (response: any) => void;
+  registrationLoading?: any;
 }
 
 interface ImageInfo {
@@ -39,6 +41,8 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
   setOnSuccessPurchase,
   isFree,
   isTest,
+  onSuccess,
+  registrationLoading,
 }) => {
   const eventSourceRef = useRef<EventSource | null>(null);
   const [imageList, setImageList] = useState<ImageInfo[]>([]);
@@ -75,7 +79,11 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
         ];
         setImageList(imageListRef.current);
         setOnSuccessPurchase(true);
-
+        const responsePayload = {
+          status: "success",
+          data: paymentDetails?.tickets,
+        };
+        onSuccess?.(responsePayload);
         if (paymentDetails?.tickets?.length === imageListRef.current.length) {
           es.close();
         }
@@ -151,29 +159,57 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
       <div className="gruve-echo-modal-flex">
         {eventType === "registration" ? (
           <>
-            <span className="gruve-package-echo-loader-green">
-              <SucessfulConnect />
-            </span>
-            <h2 className="gruve-echo-modal-heading">
-              Registration successful
-            </h2>
+            {registrationLoading ? (
+              <>
+                <span className="gruve-package-echo-loader">
+                  <span className="gruve-package-echo-rotating-icon">
+                    <HourGlass />
+                  </span>
+                </span>
+                <h2 className="gruve-echo-modal-heading gruve-echo-modal-heading-tickets">
+                  Registration in review
+                </h2>
+                <p className="gruve-echo-modal-text">
+                  A confirmation email will be sent to the provided email and
+                  WhatsApp. If it’s not in your inbox, please check your{" "}
+                  <strong>spam, promotions</strong>, or <strong>trash</strong>{" "}
+                  folders.
+                </p>
+              </>
+            ) : (
+              <>
+                <span className="gruve-package-echo-loader-green">
+                  <SucessfulConnect />
+                </span>
+                <h2 className="gruve-echo-modal-heading">
+                  Registration successful
+                </h2>
 
-            <p
-              className="gruve-echo-modal-text"
-              style={{ marginBottom: "16px" }}
-            >
-              A confirmation email has been sent to{" "}
-              <strong>{userEmail}. </strong>
-              Please sign in to see more details and manage your registration
-            </p>
-            <a
-              href={BASE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="gruve-echo-download-in-button"
-            >
-              <div className="">Sign in to Gruve</div>
-            </a>
+                <p
+                  className="gruve-echo-modal-text"
+                  style={{ marginBottom: "16px" }}
+                >
+                  A confirmation email has been sent to{" "}
+                  <strong>{userEmail}. </strong>
+                  Please sign in to see more details and manage your
+                  registration
+                </p>
+                <a
+                  href={BASE_URL}
+                  target="_blank"
+                  style={{ textDecoration: "none" }}
+                  rel="noopener noreferrer"
+                  className="gruve-echo-download-in-button"
+                >
+                  <div
+                    style={{ background: buttonColor, color: buttonTextColor }}
+                    className=""
+                  >
+                    Sign in to Gruve
+                  </div>
+                </a>
+              </>
+            )}
           </>
         ) : (
           <>
@@ -201,7 +237,13 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
                       </span>
                     </div>
                     <div className="gruve-echo-download-in-button">
-                      <div className="" onClick={handleDownload}>
+                      <div
+                        style={{
+                          background: buttonColor,
+                          color: buttonTextColor,
+                        }}
+                        onClick={handleDownload}
+                      >
                         Download ticket(s)
                       </div>
                     </div>

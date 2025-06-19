@@ -90,15 +90,13 @@ export default App;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@gruve/echo@latest/dist/cta-button.css"
-    />
   </head>
   <body>
     <a
       class="gruve-cta-button"
       data-gruve-event-address="0x1508DfF27C5BfFC5810976fBCB3************"
+      data-gruve-theme-color="#ea445a"
+      data-gruve-button-text-color="white"
     >
       Buy Ticket
     </a>

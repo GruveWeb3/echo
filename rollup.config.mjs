@@ -11,7 +11,7 @@ import replace from "@rollup/plugin-replace";
 
 const extensions = [ ".js", ".jsx", ".ts", ".tsx" ];
 
-export default [{
+export default {
   input: "src/index.tsx",
   output: [
     {
@@ -78,19 +78,4 @@ export default [{
     } ),
     terser(),
   ],
-},
-
-{
-    input: 'src/cta-button-style.ts',
-    output: {
-      file: 'dist/cta-button-style.ts',
-      format: 'esm',
-    },
-    plugins: [
-      postcss({
-        extract: 'cta-button.css', 
-        minimize: true,
-        modules: false,
-      }),
-    ],
-  }]
+};
