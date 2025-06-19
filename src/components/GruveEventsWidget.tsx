@@ -4,7 +4,11 @@ import { IEventType, QuestionList, TicketDiscountList } from "../../types/echo";
 import "./index.css";
 import "../styles/fonts.module.css";
 import "../styles/global.module.css";
-import { GET_BACKEND_URL, GET_BASE_URL } from "../utils/utils";
+import {
+  CDN_KEY_FOR_SCRIPT,
+  GET_BACKEND_URL,
+  GET_BASE_URL,
+} from "../utils/utils";
 import "../components/Loader/loader.css";
 export interface TagsOptions {
   value: string;
@@ -98,7 +102,7 @@ export interface GruveEventWidgetsProps {
     displayText?: string;
   };
   children?: React.ReactNode;
-  triggerOnMount?: boolean;
+  triggerOnMountValue?: string;
 }
 
 const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
@@ -108,7 +112,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   children,
   onSuccess,
   onError,
-  triggerOnMount = false,
+  triggerOnMountValue = "",
 }) => {
   const [eventDetails, setEventDetails] = useState<IEventData | null>(null);
   const [eventDetailsWithId, setEventDetailsWithId] =
@@ -117,6 +121,8 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   const [coupons, setCoupons] = useState<any>([]);
   const [ticketBalances, setTicketBalances] = useState([]);
   const [couponData, setCouponData] = useState<TicketDiscountList>([]);
+
+  const triggerOnMount = triggerOnMountValue === CDN_KEY_FOR_SCRIPT;
 
   const [rates, setRates] = useState({});
 

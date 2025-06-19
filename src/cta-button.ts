@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import GruveEventWidgets from "./components/GruveEventsWidget";
+import { CDN_KEY_FOR_SCRIPT } from "./utils/utils";
 
 export function GruveCDNCta() {
   if (typeof window === "undefined") return;
@@ -12,7 +13,7 @@ export function GruveCDNCta() {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
 
-        const eventAddress = btn.getAttribute("data-gruve-event-id");
+        const eventAddress = btn.getAttribute("data-gruve-event-address");
         const isTest = btn.getAttribute("data-gruve-test") === "true";
 
         if (!eventAddress) return;
@@ -25,7 +26,7 @@ export function GruveCDNCta() {
           React.createElement(GruveEventWidgets, {
             eventAddress,
             isTest,
-            triggerOnMount: true,
+            triggerOnMountValue: CDN_KEY_FOR_SCRIPT,
           })
         );
       });
