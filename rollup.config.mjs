@@ -6,9 +6,10 @@ import typescript from "rollup-plugin-typescript2";
 import { babel } from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
 import pkg from "./package.json" with { type: "json" };
+import replace from "@rollup/plugin-replace";
 
 
-const extensions = [".js", ".jsx", ".ts", ".tsx"];
+const extensions = [ ".js", ".jsx", ".ts", ".tsx" ];
 
 export default {
   input: "src/index.tsx",
@@ -32,30 +33,49 @@ export default {
       globals: {
         react: "React",
         "react-dom": "ReactDOM",
-        "react/jsx-runtime": "jsxRuntime", 
+        "react-dom/client": "ReactDOM",
+        "react/jsx-runtime": "jsxRuntime",
       },
       sourcemap: true,
     },
   ],
-  external: ["react", "react-dom"],
+  external: [ "react", "react-dom", "react-dom/client" ],
+
   plugins: [
     external(),
-    postcss({
+    postcss( {
+      extract: false,
       modules: {
         generateScopedName: "[name]__[local]___[hash:base64:5]",
       },
-    }),
-    resolve({ extensions }),
+      minimize: true,
+    } ),
+    resolve( { extensions } ),
+
+    replace( {
+      preventAssignment: true,
+      "process.env.NODE_ENV": JSON.stringify( "production" ),
+    } ),
+
     commonjs(),
-    typescript({
+    typescript( {
       useTsconfigDeclarationDir: true,
       clean: true,
-    }),
-    babel({
+    } ),
+    babel( {
       extensions,
       babelHelpers: "bundled",
-      exclude: ["node_modules/**", "**/*.ts", "**/*.tsx"],
-    }),
+      exclude: [ "node_modules/**" ],
+      presets: [
+        [
+          "@babel/preset-react",
+          {
+            runtime: "classic",
+          },
+        ],
+        "@babel/preset-typescript",
+      ],
+    } ),
     terser(),
   ],
 };

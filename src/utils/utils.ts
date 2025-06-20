@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import type { SelectedTicket } from "../components/Tickets/TicketsCounter";
 
+export const CDN_KEY_FOR_SCRIPT = "CDN_KEY_1234873*";
+
 export const GET_PAYSTACK_KEY = (isTest: boolean) =>
   isTest
     ? "pk_test_b9c556369fc74860f7f267257c0f92c872792fd7"

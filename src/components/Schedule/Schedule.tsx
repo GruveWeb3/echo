@@ -3,7 +3,13 @@ import "./Schedule.css";
 import { CountDown } from "./Countdown";
 import { IEventData } from "../GruveEventsWidget";
 
-const ScheduleInfo = ({ eventData }: { eventData: IEventData }) => {
+const ScheduleInfo = ({
+  eventData,
+  themeColor,
+}: {
+  eventData: IEventData;
+  themeColor: string;
+}) => {
   if (!eventData || eventData.schedules.length === 0) return null;
 
   const getFinalDate = () => {
@@ -160,7 +166,10 @@ const ScheduleInfo = ({ eventData }: { eventData: IEventData }) => {
       </div>
 
       <div className="gruve-echo-right-section">
-        <CountDown date={`${date} ${eventData.schedules[0].startTime}`} />
+        <CountDown
+          themeColor={themeColor}
+          date={`${date} ${eventData.schedules[0].startTime}`}
+        />
       </div>
     </div>
   );

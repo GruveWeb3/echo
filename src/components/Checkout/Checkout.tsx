@@ -32,7 +32,7 @@ interface CheckoutProps {
   selectedTickets: SelectedTicket[];
   setShowTicketPurchaseSuccess: (val: boolean) => void;
   setIsFree: (val: boolean) => void;
-  setOnSuccess: (val: boolean) => void;
+  setOnSuccessPurchase: (val: boolean) => void;
   setListedTickets: React.Dispatch<React.SetStateAction<ITicketListed[]>>;
   setSelectedTickets: React.Dispatch<React.SetStateAction<SelectedTicket[]>>;
   coupons: any[];
@@ -43,6 +43,8 @@ interface CheckoutProps {
   setIsListening: any;
   setOpenConfirmationModal: any;
   setPaymentDetails: any;
+  onSuccess?: (response: any) => void;
+  onError?: (error: any) => void;
 }
 
 const Checkout: React.FC<CheckoutProps> = ({
@@ -68,7 +70,9 @@ const Checkout: React.FC<CheckoutProps> = ({
   setOpenConfirmationModal,
   setPaymentDetails,
   setIsFree,
-  setOnSuccess,
+  setOnSuccessPurchase,
+  onSuccess,
+  onError,
 }) => {
   const [tickets, setTickets] = useState<ITicketListed[]>(listedTickets);
   const [isMultiple, setIsMultiple] = useState("yes");
@@ -87,6 +91,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   const rate = rates[`NGN${currentCurrency}`];
   const defaultCoupon =
     coupons.find((elem) => elem.ticketType === max) ?? coupons[0];
+
   const isTicketSupportAutoDis =
     defaultCoupon?.ticketTypeId > 0
       ? listedTickets.filter(
@@ -159,7 +164,12 @@ const Checkout: React.FC<CheckoutProps> = ({
 
       if (res.ok) {
         const result = await res.json();
-        setOnSuccess(true);
+        const responsePayload = {
+          status: "success",
+          data: tickets,
+        };
+        onSuccess?.(responsePayload);
+        setOnSuccessPurchase(true);
         setPaymentDetails(result);
         setShowTicketPurchaseSuccess(true);
       }
@@ -167,6 +177,7 @@ const Checkout: React.FC<CheckoutProps> = ({
       setIsSubmitting(false);
       const errorMessage =
         e?.response?.data?.message || e.message || "Something went wrong";
+      onError?.(errorMessage);
       setErrorMessage(errorMessage);
     }
   };
@@ -271,12 +282,6 @@ const Checkout: React.FC<CheckoutProps> = ({
       _request = result?.data;
       setPaymentDetails(_request);
       setIsListening(true);
-      // const data = {
-      //   email,
-      //   amount: _request.amountToPay,
-      //   tickets: tickets,
-      //   eventAddress,
-      // };
       const amount = totalPrice * rate * 100;
 
       const _payStack = new paystackModal();
@@ -325,8 +330,6 @@ const Checkout: React.FC<CheckoutProps> = ({
           setIsSubmitting(false);
         },
       });
-
-      // await submitUserAnswers(userAnswerArray);
     } catch (e) {
       setIsSubmitting(false);
     }

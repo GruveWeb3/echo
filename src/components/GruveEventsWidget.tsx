@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventDetails from "./EventDetails/EventDetails";
 import { IEventType, QuestionList, TicketDiscountList } from "../../types/echo";
 import "./index.css";
+import "../styles/fonts.module.css";
 import "../styles/global.module.css";
-import { GET_BACKEND_URL, GET_BASE_URL } from "../utils/utils";
+import {
+  CDN_KEY_FOR_SCRIPT,
+  GET_BACKEND_URL,
+  GET_BASE_URL,
+} from "../utils/utils";
 import "../components/Loader/loader.css";
 export interface TagsOptions {
   value: string;
@@ -41,7 +46,7 @@ export type IRegistrationQuestion = {
   title: string;
   type: QuestionType;
   required: boolean;
-  options?: any[]; // You can replace `any` with a specific type if you know the structure
+  options?: any[];
   termsContent?: string;
   termsLink?: string;
   socials?: string;
@@ -88,11 +93,16 @@ export type IITickets = {
 export interface GruveEventWidgetsProps {
   eventAddress: string;
   isTest?: boolean;
+
+  onSuccess?: (response: any) => void;
+  onError?: (error: any) => void;
+
   config?: React.CSSProperties & {
     themeColor?: string;
     displayText?: string;
   };
   children?: React.ReactNode;
+  triggerOnMountValue?: string;
 }
 
 const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
@@ -100,6 +110,9 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   isTest = false,
   config,
   children,
+  onSuccess,
+  onError,
+  triggerOnMountValue = "",
 }) => {
   const [eventDetails, setEventDetails] = useState<IEventData | null>(null);
   const [eventDetailsWithId, setEventDetailsWithId] =
@@ -108,6 +121,8 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   const [coupons, setCoupons] = useState<any>([]);
   const [ticketBalances, setTicketBalances] = useState([]);
   const [couponData, setCouponData] = useState<TicketDiscountList>([]);
+
+  const triggerOnMount = triggerOnMountValue === CDN_KEY_FOR_SCRIPT;
 
   const [rates, setRates] = useState({});
 
@@ -178,21 +193,36 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (triggerOnMount) {
+      handleClick();
+    }
+  }, [triggerOnMount]);
+
   const buttonColor = config?.themeColor ? config?.themeColor : "#ea445a";
   const buttonText = config?.displayText ? config?.displayText : "Get ticket";
   const buttonTextColor = config?.color ? config.color : "white";
+
   return (
     <div className="my-package-container gruve-package-s">
-      {children ? (
-        <div onClick={handleClick}>{children}</div>
-      ) : (
-        <button
-          onClick={handleClick}
-          style={{ ...config }}
-          className="gruve-event-details-btn"
-        >
-          {buttonText}
-        </button>
+      {!triggerOnMount && (
+        <>
+          {children ? (
+            <div onClick={handleClick}>{children}</div>
+          ) : (
+            <button
+              onClick={handleClick}
+              style={{
+                border: "none",
+                background: buttonColor ? buttonColor : "",
+                ...config,
+              }}
+              className="gruve-event-details-btn"
+            >
+              {buttonText}
+            </button>
+          )}
+        </>
       )}
       {loading ? (
         <div className="_">
@@ -205,12 +235,14 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
           eventDetailsWithId={eventDetailsWithId}
           setOpen={setOpen}
           questions={questions}
+          onSuccess={onSuccess}
+          onError={onError}
           rates={rates}
           coupons={coupons}
           couponData={couponData}
           ticketBalances={ticketBalances}
           isTest={isTest}
-          buttonColor={buttonColor}
+          buttonColor={buttonColor === "#ea445a" ? "" : buttonColor}
           buttonTextColor={buttonTextColor}
         />
       )}

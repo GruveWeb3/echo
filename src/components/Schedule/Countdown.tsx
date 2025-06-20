@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { timeDiff } from "../../utils/utils";
 
-export const CountDown = ({ date }: { date: string }) => {
+export const CountDown = ({
+  date,
+  themeColor,
+}: {
+  date: string;
+  themeColor: string;
+}) => {
   const [, setSeconds] = useState(0);
   const { day, hour, minute, second } = timeDiff(new Date(date));
 
@@ -24,7 +30,12 @@ export const CountDown = ({ date }: { date: string }) => {
             { label: "Secs", value: second },
           ].map((item, idx) => (
             <div key={idx} className="gruve-echo-countdown-item">
-              <div className="gruve-echo-countdown-circle">{item.value}</div>
+              <div
+                style={{ borderColor: themeColor }}
+                className="gruve-echo-countdown-circle"
+              >
+                {item.value}
+              </div>
               <span className="gruve-echo-countdown-label">{item.label}</span>
             </div>
           ))}

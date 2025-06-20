@@ -1,6 +1,12 @@
 import React from "react";
 
-const LinkedContent = ({ content }: { content: string }) => {
+const LinkedContent = ({
+  content,
+  themeColor,
+}: {
+  content: string;
+  themeColor: string;
+}) => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const parts = content.split(urlRegex);
 
@@ -14,7 +20,7 @@ const LinkedContent = ({ content }: { content: string }) => {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              color: "#EA445A",
+              color: themeColor ? themeColor : "#EA445A",
               textDecoration: "underline",
               wordBreak: "break-all",
               overflowWrap: "anywhere",

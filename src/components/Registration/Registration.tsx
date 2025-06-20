@@ -16,11 +16,17 @@ interface RegistrationProps {
   handleCloseModal: () => void;
   setOpenRegistration: (value: boolean) => void;
   setShowRegistrationSuccess: (value: boolean) => void;
+  setIsListening: (value: boolean) => void;
   setUserEmail: (value: string) => void;
   eventData: IEventData | null;
   creator: string | undefined;
   address: string | undefined;
   isTest: boolean;
+  onSuccess?: (response: any) => void;
+  onError?: (error: any) => void;
+  setIsFree: (val: boolean) => void;
+  buttonColor: string;
+  buttonTextColor: string;
 }
 
 const Registration: React.FC<RegistrationProps> = ({
@@ -32,9 +38,24 @@ const Registration: React.FC<RegistrationProps> = ({
   isTest,
   setShowRegistrationSuccess,
   setUserEmail,
+  setIsFree,
+  onSuccess,
+  onError,
+  buttonColor,
+  buttonTextColor,
+  setIsListening,
 }) => {
   const handleGoBack = () => {
     setOpenRegistration(false);
+  };
+  const color = buttonColor ? buttonColor : "#ea445a";
+  const loaderStyle = {
+    border: `4px solid  ${color}`,
+    borderTopColor: "transparent",
+    width: "24px",
+    height: "24px",
+    borderRadius: "50%",
+    animation: "spin 0.7s linear infinite",
   };
 
   const initialQuestionsValue =
@@ -102,7 +123,12 @@ const Registration: React.FC<RegistrationProps> = ({
             <label htmlFor={question.id}>
               {question.title}
               {question?.required && (
-                <span className="gruve-echo-registration-reqired">*</span>
+                <span
+                  style={{ color: buttonColor }}
+                  className="gruve-echo-registration-reqired"
+                >
+                  *
+                </span>
               )}
             </label>
             <Field
@@ -125,7 +151,12 @@ const Registration: React.FC<RegistrationProps> = ({
             <label htmlFor={question.id}>
               {question.title}
               {question?.required && (
-                <span className="gruve-echo-registration-reqired">*</span>
+                <span
+                  style={{ color: buttonColor }}
+                  className="gruve-echo-registration-reqired"
+                >
+                  *
+                </span>
               )}
             </label>
             <WhatsAppInput
@@ -145,9 +176,19 @@ const Registration: React.FC<RegistrationProps> = ({
         return (
           <div className="gruve-echo-registration_form-group" key={question.id}>
             <label>
-              <Field type="checkbox" name={question.id} /> {question.title}
+              <Field
+                type="checkbox"
+                style={{ accentColor: buttonColor }}
+                name={question.id}
+              />{" "}
+              {question.title}
               {question?.required && (
-                <span className="gruve-echo-registration-reqired">*</span>
+                <span
+                  style={{ color: buttonColor }}
+                  className="gruve-echo-registration-reqired"
+                >
+                  *
+                </span>
               )}
             </label>
             <ErrorMessage
@@ -167,7 +208,12 @@ const Registration: React.FC<RegistrationProps> = ({
                 <span>
                   ({question.socials}){" "}
                   {question?.required && (
-                    <span className="gruve-echo-registration-reqired">*</span>
+                    <span
+                      style={{ color: buttonColor }}
+                      className="gruve-echo-registration-reqired"
+                    >
+                      *
+                    </span>
                   )}
                 </span>
               )}
@@ -190,17 +236,29 @@ const Registration: React.FC<RegistrationProps> = ({
         return (
           <div className="gruve-echo-registration_form-group" key={question.id}>
             <label className="gruve-echo-registration-radio">
-              <Field type="checkbox" name={question.id} />{" "}
+              <Field
+                type="checkbox"
+                style={{ accentColor: buttonColor }}
+                name={question.id}
+              />{" "}
               <span>
                 {question.termsContent}
                 {question.termsLink && (
                   <>
                     {" "}
-                    <LinkedContent content={question?.termsLink} />
+                    <LinkedContent
+                      content={question?.termsLink}
+                      themeColor={buttonColor}
+                    />
                   </>
                 )}
                 {question?.required && (
-                  <span className="gruve-echo-registration-reqired">*</span>
+                  <span
+                    style={{ color: buttonColor }}
+                    className="gruve-echo-registration-reqired"
+                  >
+                    *
+                  </span>
                 )}
               </span>
             </label>
@@ -218,7 +276,12 @@ const Registration: React.FC<RegistrationProps> = ({
             <label>
               {question.title}
               {question?.required && (
-                <span className="gruve-echo-registration-reqired">*</span>
+                <span
+                  style={{ color: buttonColor }}
+                  className="gruve-echo-registration-reqired"
+                >
+                  *
+                </span>
               )}
             </label>
             {question.options?.map((option, index) => {
@@ -231,6 +294,7 @@ const Registration: React.FC<RegistrationProps> = ({
                     <input
                       type="checkbox"
                       value={option.value}
+                      style={{ accentColor: buttonColor }}
                       checked={isChecked}
                       onChange={(e) => {
                         const newValues = e.target.checked
@@ -261,7 +325,12 @@ const Registration: React.FC<RegistrationProps> = ({
             <label>
               {question.title}{" "}
               {question?.required && (
-                <span className="gruve-echo-registration-reqired">*</span>
+                <span
+                  style={{ color: buttonColor }}
+                  className="gruve-echo-registration-reqired"
+                >
+                  *
+                </span>
               )}
             </label>
             {question.options?.map((option, index) => (
@@ -271,6 +340,7 @@ const Registration: React.FC<RegistrationProps> = ({
                     type="radio"
                     name={question.id}
                     value={option.value}
+                    style={{ accentColor: buttonColor }}
                     className="custom-radio"
                     checked={formikProps.values[question.id] === option.value}
                   />{" "}
@@ -314,6 +384,10 @@ const Registration: React.FC<RegistrationProps> = ({
 
     setUserEmail(String(email));
 
+    setTimeout(() => {
+      setIsFree(true);
+      setIsListening(true);
+    }, 1500);
     try {
       const res = await fetch(
         `${GET_BACKEND_URL(isTest)}/api/registration/submit`,
@@ -329,9 +403,17 @@ const Registration: React.FC<RegistrationProps> = ({
       if (!res.ok) {
         throw new Error(data.message || "Something went wrong");
       }
+      const responsePayload = {
+        status: "success",
+        data: [data],
+      };
+      setIsFree(true);
+      onSuccess?.(responsePayload);
+      setIsListening(false);
       setShowRegistrationSuccess(true);
     } catch (error) {
       console.error(error);
+      onError?.(error);
     } finally {
       setSubmitting(false);
     }
@@ -368,10 +450,21 @@ const Registration: React.FC<RegistrationProps> = ({
                 </div>
                 {formikProps?.isSubmitting ? (
                   <div className="gruve-echo-loading-btn gruve-event-loader-container-order">
-                    <div className="gruve-event-loader-spinner"></div>
+                    <div
+                      style={loaderStyle}
+                      className="gruve-event-loader-spinner"
+                    ></div>
                   </div>
                 ) : (
-                  <button type="submit" className="gruve-echo-submit-btn">
+                  <button
+                    style={{
+                      background: buttonColor,
+                      color: buttonTextColor,
+                      border: "none",
+                    }}
+                    className="gruve-echo-submit-btn"
+                    type="submit"
+                  >
                     Register
                   </button>
                 )}

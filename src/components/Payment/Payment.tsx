@@ -6,9 +6,10 @@ import SvgDollarIcon from "../../asset/DollarIcon";
 
 interface PaymentProps {
   goBack: () => void;
+  themeColor: string;
 }
 
-const Payment: React.FC<PaymentProps> = ({ goBack }) => {
+const Payment: React.FC<PaymentProps> = ({ themeColor, goBack }) => {
   return (
     <div>
       <div className="gruve-echo-modal-top">
@@ -22,7 +23,12 @@ const Payment: React.FC<PaymentProps> = ({ goBack }) => {
       </div>
       <div className="gruve-echo-input-box">
         <div className="gruve-echo-input-left">
-          <input type="radio" defaultChecked={true} name="payment" />
+          <input
+            style={{ accentColor: themeColor }}
+            type="radio"
+            defaultChecked={true}
+            name="payment"
+          />
           <span>Bank transfer, Debit Card</span>
         </div>
         <div className="gruve-echo-input-right">
