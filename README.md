@@ -97,6 +97,7 @@ export default App;
       data-gruve-event-address="0x1508DfF27C5BfFC5810976fBCB3************"
       data-gruve-theme-color="#ea445a"
       data-gruve-button-text-color="white"
+      data-gruve-test="true"
     >
       Buy Ticket
     </a>
@@ -118,6 +119,19 @@ export default App;
 | `isTest`       | `boolean`                                                             | No       | When `true`, runs the widget in test/sandbox mode (skips real payment flows).                                                            |
 | `config`       | `React.CSSProperties & { themeColor?: string; displayText?: string }` | No       | Optional styling and text overrides. If you specify `displayText`, a button with that text is shown; otherwise, `children` are rendered. |
 | `children`     | `React.ReactNode`                                                     | No       | Custom nodes to render _only_ when `config.displayText` is **not** provided.                                                             |
+
+---
+
+### ⚙️ Props for HTML CDN Integration
+
+#### These attributes are used when embedding the widget via a simple <a> tag in an HTML file using the CDN version of the Gruve Echo script.
+
+| Attribute                      | Type                              | Required | Description                                                                    |
+| ------------------------------ | --------------------------------- | -------- | ------------------------------------------------------------------------------ |
+| `data-gruve-event-address`     | `string`                          | ✅ Yes   | The unique Ethereum event address to link this button to.                      |
+| `data-gruve-test`              | `boolean` (`"true"` \| `"false"`) | No       | When set to `"true"`, the widget runs in test/sandbox mode (no real payments). |
+| `data-gruve-theme-color`       | `string` (hex code)               | No       | Sets the background color of the button, e.g., `"#ea445a"`.                    |
+| `data-gruve-button-text-color` | `string` (color name or hex)      | No       | Sets the text color of the button, e.g., `"white"` or `"#ffffff"`.             |
 
 ---
 
