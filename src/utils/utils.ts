@@ -9,7 +9,7 @@ export const GET_PAYSTACK_KEY = (isTest: boolean) =>
     : "pk_live_9ad4baa113f026b2507c13522e05fd2dda0e871c";
 
 export const GET_BASE_URL = (isTest: boolean) =>
-  isTest ? "https://test.gruve.vercel.app" : "https://beta.gruve.events";
+  isTest ? "https://test.gruve.vercel.app" : "https://www.gruve.events";
 
 export const GET_BACKEND_URL = (isTest: boolean) =>
   isTest ? "https://backend.gruve.events" : "https://secure.gruve.events";
