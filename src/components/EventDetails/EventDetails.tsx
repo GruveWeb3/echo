@@ -34,6 +34,7 @@ interface EventDetailsProps {
   isTest: boolean;
   buttonColor: string;
   buttonTextColor: string;
+  eventAddress: string;
   onSuccess?: (response: any) => void;
   onError?: (error: any) => void;
 }
@@ -53,6 +54,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   buttonTextColor,
   onSuccess,
   onError,
+  eventAddress,
 }) => {
   const [currentCurrency, setCurrentCurrency] = useState("NGN");
   const [selectedTickets, setSelectedTickets] = useState<SelectedTicket[]>([]);
@@ -104,6 +106,12 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     listedTickets,
     eventDetails?.tickets
   );
+
+  const isRegistrationClosed =
+    (eventDetailsWithId &&
+      eventDetails?.ticketingOption === "registration" &&
+      eventDetails?.numberofRegistrants <= eventDetailsWithId?.ticketsCount) ||
+    false;
 
   return (
     <Modal
@@ -193,6 +201,12 @@ const EventDetails: React.FC<EventDetailsProps> = ({
               </div>
               {eventDetails && Object.keys(eventDetails).length > 0 && (
                 <div className="gruve-echo-event-details-container">
+                  {isRegistrationClosed && (
+                    <div className="gruve-echo-registration-closed">
+                      <strong>Registration has closed,</strong> follow creator
+                      for future updates
+                    </div>
+                  )}
                   <div className="gruve-echo-event-img-container">
                     <img
                       className="gruve-echo-event-imge max-w-[400px] max-h-[400px] size-[400px] rounded-lg"
@@ -228,7 +242,11 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                               background: buttonColor,
                               color: buttonTextColor,
                               border: "none",
+                              cursor: `${
+                                isRegistrationClosed && "not-allowed"
+                              }`,
                             }}
+                            disabled={isRegistrationClosed}
                             className={`gruve-echo-get-tickets-btn`}
                             onClick={() => setOpenRegistration(true)}
                           >
@@ -275,7 +293,12 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       )}
       <div className="gruve-echo-modal-footer">
         <div className="">
-          <span className="">View Full Event Page</span>
+          <a
+            href={`${GET_BASE_URL(isTest)}/newEventDetails/${eventAddress}`}
+            target="_blank"
+          >
+            View Full Event Page
+          </a>
           <ArrowRight />
         </div>
         <div className="">

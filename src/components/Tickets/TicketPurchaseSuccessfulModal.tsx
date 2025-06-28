@@ -195,7 +195,7 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
                   registration
                 </p>
                 <a
-                  href={BASE_URL}
+                  href={`${BASE_URL}?sign-up`}
                   target="_blank"
                   style={{ textDecoration: "none" }}
                   rel="noopener noreferrer"
@@ -248,7 +248,7 @@ const TicketPurchaseSuccessfulModal: React.FC<Props> = ({
                       </div>
                     </div>
                     <a
-                      href={BASE_URL}
+                      href={`${BASE_URL}?sign-up`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="gruve-echo-sign-in-button"

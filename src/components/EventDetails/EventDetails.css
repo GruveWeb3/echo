@@ -190,3 +190,12 @@
   align-items: center;
   color: #666481;
 }
+
+.gruve-echo-registration-closed {
+  padding: 8px 10px;
+  font-size: 14px;
+  background: #ffe6cc;
+  color: #0b0c0c;
+  margin-top: 16px;
+  border-radius: 8px;
+}

@@ -25,3 +25,15 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.gruve-echo-currency-holder {
+  height: 24px;
+  width: 24px;
+  border-radius: 100%;
+  color: white;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6e66fd;
+}

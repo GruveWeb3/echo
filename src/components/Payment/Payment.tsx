@@ -2,14 +2,18 @@ import React from "react";
 import "./Payment.css";
 import BackArrow from "../../asset/BackArrow";
 import CloseIcon from "../../asset/CloseIcon";
-import SvgDollarIcon from "../../asset/DollarIcon";
 
 interface PaymentProps {
   goBack: () => void;
   themeColor: string;
+  currentCurrency: string;
 }
 
-const Payment: React.FC<PaymentProps> = ({ themeColor, goBack }) => {
+const Payment: React.FC<PaymentProps> = ({
+  themeColor,
+  goBack,
+  currentCurrency,
+}) => {
   return (
     <div>
       <div className="gruve-echo-modal-top">
@@ -32,7 +36,9 @@ const Payment: React.FC<PaymentProps> = ({ themeColor, goBack }) => {
           <span>Bank transfer, Debit Card</span>
         </div>
         <div className="gruve-echo-input-right">
-          <SvgDollarIcon />
+          <div className="gruve-echo-currency-holder">
+            {currentCurrency === "NGN" ? "₦" : "$"}
+          </div>
         </div>
       </div>
     </div>

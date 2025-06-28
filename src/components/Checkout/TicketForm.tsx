@@ -281,7 +281,11 @@ const TicketForm: React.FC<Props> = ({
           <div className="">
             {openPaymentsModal ? (
               <div className="">
-                <Payment themeColor={buttonColor} goBack={handleClosePayment} />
+                <Payment
+                  currentCurrency={currentCurrency}
+                  themeColor={buttonColor}
+                  goBack={handleClosePayment}
+                />
               </div>
             ) : (
               <div className="">

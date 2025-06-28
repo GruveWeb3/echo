@@ -54,6 +54,7 @@ export type IRegistrationQuestion = {
 };
 
 export interface IEventData {
+  numberofRegistrants: number;
   timeZone: any;
   Attendee?: any;
   tags?: TagsOptions[];
@@ -237,6 +238,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
           questions={questions}
           onSuccess={onSuccess}
           onError={onError}
+          eventAddress={eventAddress}
           rates={rates}
           coupons={coupons}
           couponData={couponData}
