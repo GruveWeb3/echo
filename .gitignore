@@ -5,6 +5,7 @@ seed.json
 # macOS
 .DS_Store
 
+/test.html
 
 .vercel
 dist/
