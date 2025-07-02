@@ -18,17 +18,11 @@
 .gruve-echo-location-link {
   margin-bottom: 0.5rem;
   display: inline-block;
-  border-bottom: 1px solid transparent;
   cursor: pointer;
   font-size: 0.875rem;
   font-weight: 500;
   color: #1a202c;
   transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.gruve-echo-location-link:hover {
-  border-color: #375dfb;
-  color: #375dfb;
 }
 
 .gruve-echo-location-text {

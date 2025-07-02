@@ -20,11 +20,7 @@ const Location = ({ location }: { location: any }) => {
         </div>
 
         {isOnline ? (
-          <p className="gruve-echo-location-link">
-            <a href={locationUrl} target="_blank" rel="noopener noreferrer">
-              Online
-            </a>
-          </p>
+          <p className="gruve-echo-location-link">Online</p>
         ) : (
           <p className="gruve-echo-location-text">{displayLocation}</p>
         )}

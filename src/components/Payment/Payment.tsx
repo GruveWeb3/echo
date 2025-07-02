@@ -2,6 +2,8 @@ import React from "react";
 import "./Payment.css";
 import BackArrow from "../../asset/BackArrow";
 import CloseIcon from "../../asset/CloseIcon";
+import SvgPaystack from "../../asset/Paystack";
+import SvgDollarIcon from "../../asset/DollarIcon";
 
 interface PaymentProps {
   goBack: () => void;
@@ -33,12 +35,10 @@ const Payment: React.FC<PaymentProps> = ({
             defaultChecked={true}
             name="payment"
           />
-          <span>Bank transfer, Debit Card</span>
+          <span>Bank transfer, Debit Card or USSD</span>
         </div>
         <div className="gruve-echo-input-right">
-          <div className="gruve-echo-currency-holder">
-            {currentCurrency === "NGN" ? "₦" : "$"}
-          </div>
+          {currentCurrency === "NGN" ? <SvgPaystack /> : <SvgDollarIcon />}
         </div>
       </div>
     </div>

@@ -296,6 +296,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           <a
             href={`${GET_BASE_URL(isTest)}/newEventDetails/${eventAddress}`}
             target="_blank"
+            className="gruve-echo-event-view-full"
           >
             View Full Event Page
           </a>
