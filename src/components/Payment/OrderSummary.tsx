@@ -58,7 +58,7 @@ const OrderSummary: React.FC<Props> = ({
                       ticketCost *
                         ticket.quantity *
                         (rates[`${currentCurrency}${defaultCurrency}`] ?? 1) ||
-                        0
+                        0,
                     )}
                   </>
                 )}
@@ -76,8 +76,19 @@ const OrderSummary: React.FC<Props> = ({
           {`${currentCurrency === "USD" ? "$" : "₦"}${formatCurrency(
             total +
               couponAppliedAmount *
-                (rates[`${currentCurrency}${defaultCurrency}`] ?? 1) || 0
+                (rates[`${currentCurrency}${defaultCurrency}`] ?? 1) || 0,
           )}
+`}
+        </span>
+      </div>
+
+      <hr className="divider" />
+      <div className="gruve-echo-summary-row">
+        <span>Service Fee</span>
+
+        <span>
+          {`${currentCurrency === "USD" ? "$" : "₦"} ${formatCurrency(total * 0.07)}
+
 `}
         </span>
       </div>
@@ -94,7 +105,7 @@ const OrderSummary: React.FC<Props> = ({
               {`${currentCurrency === "USD" ? "$" : "₦"}${
                 formatCurrency(
                   +couponAppliedAmount *
-                    (rates[`${currentCurrency}${defaultCurrency}`] ?? 1)
+                    (rates[`${currentCurrency}${defaultCurrency}`] ?? 1),
                 ) ?? 0
               }`}
             </span>
@@ -108,7 +119,7 @@ const OrderSummary: React.FC<Props> = ({
         <span>Total</span>
         <span>
           {currentCurrency === "USD" ? "$" : "₦"}
-          {formatCurrency(total)}
+          {formatCurrency(total * 1.07)}
         </span>
       </div>
     </div>

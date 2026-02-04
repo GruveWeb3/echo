@@ -9,9 +9,11 @@ export const GET_PAYSTACK_KEY = (isTest: boolean) =>
     : "pk_live_9ad4baa113f026b2507c13522e05fd2dda0e871c";
 
 export const GET_BASE_URL = (isTest: boolean) =>
+  // isTest ? "http://localhost:3000" : "https://www.gruve.events";
   isTest ? "https://test.gruve.vercel.app" : "https://www.gruve.events";
 
 export const GET_BACKEND_URL = (isTest: boolean) =>
+  // isTest ? "http://localhost:4000" : "https://secure.gruve.events";
   isTest ? "https://backend.gruve.events" : "https://secure.gruve.events";
 
 type TimeDiffResult = {
@@ -80,7 +82,7 @@ export const formatCurrency = (valueInNumber: number) => {
 };
 
 export function expandTickets(
-  ticketArrays: SelectedTicket[]
+  ticketArrays: SelectedTicket[],
 ): SelectedTicket[] {
   const newTickArray: SelectedTicket[] = [];
 
@@ -91,7 +93,7 @@ export function expandTickets(
           ...eachTickets,
           quantity: 1,
           id: uuidv4().replace("-", ""),
-        })
+        }),
       );
       return;
     }
@@ -123,10 +125,10 @@ export const createUserAnswerArray = (tickets: any[]) => {
     ticket.questions.map((question: any) => ({
       answer: question.answer ?? "",
       userAddress: randomizeLastFourDigits(
-        "0x0000000000000000000000000000000000000002"
+        "0x0000000000000000000000000000000000000002",
       ),
       eventQuestionsId: question.id,
-    }))
+    })),
   );
 };
 
@@ -151,7 +153,7 @@ export function applyDiscount(
   eventCurrency: string,
   discountAmount: number,
   discountType: "AMOUNT" | "PERCENT",
-  cost: Record<number, number>
+  cost: Record<number, number>,
 ): [any[], number] {
   let discountApplied = 0;
   let discountAmountApplied = 0;
