@@ -150,7 +150,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
     setError(null);
     try {
       const response = await fetch(
-        `${BASE_URL}/api/fetch-event-details?eventAddress=${eventAddress}`
+        `${BASE_URL}/api/fetch-event-details?eventAddress=${eventAddress}`,
       );
 
       if (!response.ok) {
@@ -173,7 +173,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
   const fetchCoupon = async () => {
     try {
       const response = await fetch(
-        `${BACKEND_URL}/api/discount/check/${eventAddress.toLowerCase()}`
+        `${BACKEND_URL}/api/discount/check/package/${eventAddress.toLowerCase()}`,
       );
       if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);

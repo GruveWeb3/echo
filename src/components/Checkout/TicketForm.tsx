@@ -153,8 +153,8 @@ const TicketForm: React.FC<Props> = ({
     new Map(
       tickets
         .flatMap((ticket) => ticket.requiredQuestion || [])
-        .map((q) => [q.id, q])
-    ).values()
+        .map((q) => [q.id, q]),
+    ).values(),
   );
 
   const [appliedToggles, setAppliedToggles] = useState<any>({});
@@ -170,12 +170,12 @@ const TicketForm: React.FC<Props> = ({
 
     tickets.forEach((ticket, idx) => {
       const hasSameQuestion = ticket.requiredQuestion?.some(
-        (q) => q.id === questionId
+        (q) => q.id === questionId,
       );
       if (hasSameQuestion) {
         setFieldValue(
           `question_${idx}_${questionId}`,
-          !appliedToggles[questionId] ? value : ""
+          !appliedToggles[questionId] ? value : "",
         );
       }
     });
@@ -197,13 +197,16 @@ const TicketForm: React.FC<Props> = ({
 
   const initialValues =
     isMultiple === "yes"
-      ? tickets.reduce((acc, _, index) => {
-          acc["is_multiple"] = isMultiple;
-          acc[`fullName_${index}`] = "";
-          acc[`email_${index}`] = "";
-          acc[`whatsAppNumber_${index}`] = "";
-          return acc;
-        }, {} as Record<string, string>)
+      ? tickets.reduce(
+          (acc, _, index) => {
+            acc["is_multiple"] = isMultiple;
+            acc[`fullName_${index}`] = "";
+            acc[`email_${index}`] = "";
+            acc[`whatsAppNumber_${index}`] = "";
+            return acc;
+          },
+          {} as Record<string, string>,
+        )
       : {
           is_multiple: isMultiple,
           fullName: "",
@@ -239,7 +242,7 @@ const TicketForm: React.FC<Props> = ({
             ticketName: ticket?.ticketName,
             ticketTypeId: ticket.ticketTypeId,
             answers: answers.filter((a) =>
-              ticket.requiredQuestion?.some((rq) => rq.id === a.questionId)
+              ticket.requiredQuestion?.some((rq) => rq.id === a.questionId),
             ),
           }));
         } else {
@@ -318,7 +321,7 @@ const TicketForm: React.FC<Props> = ({
                           style={{ accentColor: buttonColor }}
                           className="custom-radio"
                           onChange={(
-                            e: React.ChangeEvent<HTMLInputElement>
+                            e: React.ChangeEvent<HTMLInputElement>,
                           ) => {
                             setIsMultiple(e.target.value);
                           }}
@@ -331,7 +334,7 @@ const TicketForm: React.FC<Props> = ({
                           name="is_multiple"
                           value="no"
                           onChange={(
-                            e: React.ChangeEvent<HTMLInputElement>
+                            e: React.ChangeEvent<HTMLInputElement>,
                           ) => {
                             setIsMultiple(e.target.value);
                           }}
@@ -527,7 +530,7 @@ const TicketForm: React.FC<Props> = ({
                                                       handleToggle(
                                                         question.id,
                                                         answerValue,
-                                                        setFieldValue
+                                                        setFieldValue,
                                                       );
                                                   }}
                                                 />
@@ -559,7 +562,7 @@ const TicketForm: React.FC<Props> = ({
                                         )}
                                       </div>
                                     );
-                                  }
+                                  },
                                 )}
                               </div>
                             </div>
@@ -605,7 +608,7 @@ const TicketForm: React.FC<Props> = ({
                             await handleCoupon(
                               eventAddress,
                               discountCode,
-                              tickets
+                              tickets,
                             );
                           }
                         }}
@@ -665,17 +668,17 @@ const TicketForm: React.FC<Props> = ({
                 </div>
               ) : (
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     handlePaymentHandler({
                       walletAddress: randomizeLastFourDigits(
-                        "0x0000000000000000000000000000000000000002"
+                        "0x0000000000000000000000000000000000000002",
                       ),
                       eventId: eventDetailsWithId?.id,
                       eventAddress: eventDetailsWithId?.eventAddress,
-                      email: "package@gmail.com",
+                      email: data[0].email,
                       tickets: data,
-                    })
-                  }
+                    });
+                  }}
                   style={{ background: buttonColor, color: buttonTextColor }}
                   className="gruve-echo-submit-btn"
                 >
@@ -708,7 +711,7 @@ const TicketForm: React.FC<Props> = ({
           )}
           <ClearErrorOnAnyChange
             clearError={() => {
-              setErrorMessage(""), setCouponError(""), setAnswerError("");
+              (setErrorMessage(""), setCouponError(""), setAnswerError(""));
             }}
           />
         </Form>

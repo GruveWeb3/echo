@@ -26,6 +26,7 @@
     ]
   },
   "scripts": {
+    "dev": "rollup -c -w",
     "build": "rollup -c",
     "build:test": "npx tsc",
     "lint": "eslint . --ext .ts",
