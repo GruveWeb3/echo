@@ -87,7 +87,7 @@ const OrderSummary: React.FC<Props> = ({
         <span>Service Fee</span>
 
         <span>
-          {`${currentCurrency === "USD" ? "$" : "₦"} ${formatCurrency(total * 0.07)}
+          {`${currentCurrency === "USD" ? "$" : "₦"} ${formatCurrency(total * 0.05)}
 
 `}
         </span>
