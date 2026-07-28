@@ -119,7 +119,7 @@ const OrderSummary: React.FC<Props> = ({
         <span>Total</span>
         <span>
           {currentCurrency === "USD" ? "$" : "₦"}
-          {formatCurrency(total * 1.07)}
+          {formatCurrency(total * 1.05)}
         </span>
       </div>
     </div>
