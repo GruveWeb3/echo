@@ -241,7 +241,8 @@ export default function TicketCounter({
                 />
               </div>
               <div className="gruve-echo-ticket-info">
-                <TruncatedText text={ticket?.description} />
+                <div dangerouslySetInnerHTML={{ __html: ticket?.description }} />
+                {/* <TruncatedText text={ticket?.description} /> */}
               </div>
             </div>
           </div>

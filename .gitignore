@@ -9,3 +9,4 @@ seed.json
 
 .vercel
 dist/
+*.html
