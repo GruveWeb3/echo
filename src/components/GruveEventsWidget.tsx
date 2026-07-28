@@ -150,7 +150,7 @@ const GruveEventWidgets: React.FC<GruveEventWidgetsProps> = ({
     setError(null);
     try {
       const response = await fetch(
-        `${BASE_URL}/api/fetch-event-details?eventAddress=${eventAddress}`,
+        `${BACKEND_URL}/api/fetch-event-details?eventAddress=${eventAddress}`,
       );
 
       if (!response.ok) {
