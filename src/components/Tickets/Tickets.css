@@ -116,6 +116,15 @@
 .gruve-echo-ticket-info {
   display: flex;
   flex-direction: column;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  width: 100%;
+}
+
+.gruve-echo-ticket-info * {
+  white-space: normal !important;
+  word-break: break-word;
 }
 
 .gruve-echo-ticket-description {
