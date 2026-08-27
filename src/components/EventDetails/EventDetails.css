@@ -1,7 +1,7 @@
 .gruve-echo-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 10000;
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
   display: flex;

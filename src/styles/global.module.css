@@ -4,6 +4,12 @@
   --font-primary: "Satoshi", sans-serif;
 }
 
+/* Fence off host page text color so the always-light modal stays readable. */
+.gruve-package-s {
+  color: #111021;
+  color-scheme: light;
+}
+
 .gruve-package-s * {
   font-family: var(--font-primary);
   letter-spacing: 0;
